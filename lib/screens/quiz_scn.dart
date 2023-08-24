@@ -46,7 +46,7 @@ class _QuizScn extends State<QuizScn> {
             // await quiz.getWordByLocal();
             // isMade.value = await quiz.getWordList(quiz.word.value.word ?? 'intutitive');
           },
-          child: Text('퀴즈'),
+          child: Text('quiz not implemented'),
         ),
       ),
     );

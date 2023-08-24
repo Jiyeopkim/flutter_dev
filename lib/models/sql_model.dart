@@ -1,6 +1,8 @@
 class SqlModel {
   String? title;
   int? id;
+  String? simpleKor;
+  String? simpleEng;
   String? explainKor;
   String? explainEng;
   String? example;
@@ -10,6 +12,8 @@ class SqlModel {
   SqlModel({
     this.title,
     this.id,
+    this.simpleKor,
+    this.simpleEng,
     this.explainKor,
     this.explainEng,
     this.example,
@@ -22,6 +26,12 @@ class SqlModel {
       'title': title,
       'id': id,
       'creatDt': creatDt,
+      'simple_kor': simpleKor,
+      'simple_eng': simpleEng,
+      'explain_kor': explainKor,
+      'explain_eng': explainEng,
+      'example': example,
+      'syntax': syntax,
     };
   }
 
@@ -33,6 +43,8 @@ class SqlModel {
     return SqlModel(
       title: row['title'] as String?,
       id: row['id'] as int?,
+      simpleKor: row['simple_kor'] as String?,
+      simpleEng: row['simple_eng'] as String?,
       explainKor: row['explain_kor'] as String?,
       explainEng: row['explain_eng'] as String?,
       example: row['example'] as String?,

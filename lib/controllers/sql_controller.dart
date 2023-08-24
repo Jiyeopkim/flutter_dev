@@ -33,7 +33,7 @@ class SqlController extends GetxController {
     Database db = await SqlDatabase.db();
     
     var result = await db.rawQuery(
-          'SELECT * FROM sql');
+          'SELECT * FROM sql order by id asc');
     
     print(result);
 

@@ -178,7 +178,13 @@ class MyData extends DataTableSource {
 
       for(var subitem in item.values)
       {
-        dataRow.cells.add(DataCell(SizedBox(width: 150, child: Text(subitem.toString(), overflow: TextOverflow.ellipsis,))));
+        // 내용이 너무 길면 30자로 자로 자르고, 셀의 폭을 고정함.
+        if(subitem.toString().length > 30) {
+          dataRow.cells.add(DataCell(SizedBox(width: 150, child: Text(subitem.toString(), overflow: TextOverflow.ellipsis,))));
+        } else {
+          dataRow.cells.add(DataCell(Text(subitem.toString())));
+        }
+        // dataRow.cells.add(DataCell(SizedBox(width: 150, child: Text(subitem.toString(), overflow: TextOverflow.ellipsis,))));
       }
       dataRows.add(dataRow);
     }

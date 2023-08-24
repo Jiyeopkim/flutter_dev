@@ -66,12 +66,63 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                     padding: const EdgeInsets.all(10.0),
                     child: Text(cnt.sqlItem.value.syntax ?? 'no data'),
                   )),
+                cnt.sqlItem.value.simpleEng == null ? const SizedBox(height: 0,) :
+                  Card(
+                    elevation: 0,
+                    child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(cnt.sqlItem.value.simpleEng ?? 'no data'),
+                  )),
+                cnt.sqlItem.value.simpleKor == null ? const SizedBox(height: 0,) :
+                  Card(
+                    elevation: 1,
+                    child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(cnt.sqlItem.value.simpleKor ?? 'no data'),
+                  )),  
+                const SizedBox(height: 10,),   
+                cnt.examList.isEmpty ? const SizedBox(height: 0,) : // 예제가 있으면 표시                            
                 Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(4.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: cnt.examList.length,
+                    itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: 
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 10,),
+                            Text('${index + 1} th example.'),
+                            Text(cnt.examList[index].title ?? 'no data'),
+                            const SizedBox(height: 10,),
+                            Center(
+                              child: OutlinedButton(onPressed: () async {
+                                  await cnt.execSql(cnt.examList[index].title as String);
+                                  await Get.to(() => const ResultScn(), 
+                                      fullscreenDialog: true, 
+                                      transition: Transition.rightToLeft, 
+                                      duration: const Duration(milliseconds: 300),
+                                      arguments:cnt.examList[index].title);                                
+                              }, 
+                                child: const Text('Execute')),
+                            ),
+                        ],),
+                    );
+                  },
+                  ),
+                ),
+                const SizedBox(height: 10,),
+                cnt.sqlItem.value.explainEng == null ? const SizedBox(height: 0,) :
+                Container(
+                  padding: const EdgeInsets.all(3.0),
                   child: InputDecorator(
                     decoration: 
                       const InputDecoration(
-                        labelText: 'Explaination',
+                        labelText: 'Explanation',
                         border: OutlineInputBorder(
                         borderRadius: BorderRadius.only(
                           // topRight: Radius.circular(10),
@@ -81,9 +132,11 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                     ),
                     child: Text(cnt.sqlItem.value.explainEng ?? 'no data')
                   ),
-                ),
+                ),   
+                const SizedBox(height: 10,),   
+                cnt.sqlItem.value.explainKor == null ? const SizedBox(height: 0,) :          
                 Container(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(3.0),
                   child: InputDecorator(
                     decoration: 
                       const InputDecoration(
@@ -97,44 +150,8 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                     ),
                     child: Text(cnt.sqlItem.value.explainKor ?? 'no data')
                   ),
-                ),                
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: cnt.examList.length,
-                  itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Material(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            side:
-                                BorderSide(color: (Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black).withAlpha(50), width: 1),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0))),
-                      child: 
-                        ListTile(
-                          title: Text(cnt.examList[index].title
-                              .toString()),
-                          subtitle: Text(cnt
-                              .examList[index].id
-                              .toString()),
-                          onTap: () async {
-                                  await cnt.execSql(cnt.examList[index].title as String);
-                                  await Get.to(() => const ResultScn(), 
-                                      fullscreenDialog: true, 
-                                      transition: Transition.rightToLeft, 
-                                      duration: const Duration(milliseconds: 300),
-                                      arguments:cnt.examList[index].title);
-                          },
-                        ),
-                    ),
-                  );
-                },
                 ),
+                const SizedBox(height: 10,),
                 Container(
                   height: 50,
                   color: Colors.amber[600],

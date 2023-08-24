@@ -128,7 +128,12 @@ class MyData extends DataTableSource {
 
       for(var subitem in item.values)
       {
-        dataRow.cells.add(DataCell(SizedBox(width: 150, child: Text(subitem.toString(), overflow: TextOverflow.ellipsis,))));
+        if(subitem.toString().length > 30) {
+          dataRow.cells.add(DataCell(SizedBox(width: 150, child: Text(subitem.toString(), overflow: TextOverflow.ellipsis,))));
+        } else {
+          dataRow.cells.add(DataCell(Text(subitem.toString())));
+        }
+        //dataRow.cells.add(DataCell(SizedBox(width: 150, child: Text(subitem.toString(), overflow: TextOverflow.ellipsis,))));
       }
       dataRows.add(dataRow);
     }
