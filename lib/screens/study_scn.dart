@@ -72,13 +72,13 @@ class _StudyScn extends State<StudyScn> {
                           title: Text(cnt.sqlList[index].title
                               .toString()),
                           subtitle: Text(cnt
-                              .sqlList[index].creatDt
-                              .toString()),
+                              .sqlList[index].simpleEng
+                              .toString(), overflow: TextOverflow.ellipsis,),
                           trailing:
                               // const Icon(Icons.arrow_forward_outlined),
                               IconButton(
                                   icon: const Icon(Icons.arrow_forward_outlined),
-                                  tooltip: '상세정보로 이동',
+                                  tooltip: 'Go to details',
                                   onPressed: () async{
                                     await cnt.getItem(cnt.sqlList[index].id as int);
                                     await cnt.getExamList(cnt.sqlList[index].id as int);

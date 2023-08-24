@@ -1,17 +1,20 @@
 class ExamModel {
   String? title;
   int? id;
+  String? content;
 
 
   ExamModel({
     this.title,
     this.id,
+    this.content,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'title': title,
       'id': id,
+      'content': content,
     };
   }
 
@@ -23,6 +26,7 @@ class ExamModel {
     return ExamModel(
       title: row['title'] as String?,
       id: row['id'] as int?,
+      content: row['content'] as String?,
     );
   }
 }

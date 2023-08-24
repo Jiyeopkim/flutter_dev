@@ -46,7 +46,7 @@ class _StudyDetailScn extends State<StudyDetailScn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(cnt.sqlItem.value.title ?? 'SQL Statement'),
+        title: Text(cnt.sqlItem.value.title ?? 'SQL Statement', style: const TextStyle(fontSize: 20),),
       ),
       body: 
       SafeArea(
@@ -96,7 +96,8 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 10,),
-                            Text('${index + 1} th example.'),
+                            Text('${index + 1}. ${cnt.examList[index].content ?? 'example'}'),
+                            const SizedBox(height: 10,),
                             Text(cnt.examList[index].title ?? 'no data'),
                             const SizedBox(height: 10,),
                             Center(

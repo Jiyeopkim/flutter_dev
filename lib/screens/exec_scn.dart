@@ -88,10 +88,11 @@ class _ExecScn extends State<ExecScn> {
                               icon: const Icon(Icons.clear)),
                           ),
                         ),
-                    TextButton(onPressed: onPressed, child: Text('Exec'),),
+                    const SizedBox(height: 10,),
+                    OutlinedButton(onPressed: onPressed, child: const Text('Execute'),),
                     // ignore: unrelated_type_equality_checks
                     Obx(() => isExec == false ? 
-                      const Expanded(child: Text('Hello, World')) :             
+                      const Expanded(child: Text('No Data')) :             
                       Expanded(
                         child: SingleChildScrollView(
                           child: Column(
@@ -99,7 +100,7 @@ class _ExecScn extends State<ExecScn> {
                               
                               PaginatedDataTable(
                                       source: getData(),
-                                      header: const Text('SQL Result'),
+                                      header: const Text('SQL Result', style: TextStyle(fontSize: 16),),
                                       columns: getColumns,
                                       columnSpacing: 10,
                                       horizontalMargin: 10,

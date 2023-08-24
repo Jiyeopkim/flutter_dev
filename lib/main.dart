@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:learn_sql/screens/stat_scn.dart';
 import 'package:learn_sql/screens/study_detail_scn.dart';
@@ -9,6 +13,7 @@ import 'controllers/the_app_controller.dart';
 import 'screens/quiz_scn.dart';
 import 'screens/result_scn.dart';
 import 'the_app.dart';
+import 'util.dart';
 import 'widget/custom_animated_bottom_bar.dart';
 
 void main() {
@@ -23,26 +28,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false, // 디버그 배너 제거
-      title: 'Learn SQL with SQLite',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        useMaterial3: true,
-      ),
+      title: 'Learn SQL',
+      theme: ThemeData(useMaterial3: true,
+          colorSchemeSeed: Colors.teal, 
+          // colorScheme: lightColorScheme, 
+          brightness: Brightness.light,
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+            titleLarge: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+            bodyMedium: TextStyle(fontSize: 16, color: Colors.black),
+        )),
+      darkTheme: ThemeData(useMaterial3: true, 
+        colorSchemeSeed: Colors.teal, 
+        // colorScheme: darkColorScheme,
+        brightness: Brightness.dark,
+        textTheme: const TextTheme(
+          displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+          titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.italic),
+          bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
+        )),
+
       home: const MyHomePage(title: 'Learn SQL'),
       getPages: [
         GetPage(name: '/', page: () => const MyHomePage(title: 'Learn SQL')),
@@ -78,26 +83,77 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TheAppController cnt = Get.put(TheAppController());
 
+  void init() {
+    changeStatusBarColor();
+    // debugPrint(login.token);
+  }
+
+  void cleanUp() {}
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  @override
+  void dispose() {
+    cleanUp();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    DateTime timeBackPressed = DateTime.now();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+    return WillPopScope(
+      onWillPop: () { 
+            final differeance = DateTime.now().difference(timeBackPressed);
+            timeBackPressed = DateTime.now();
+            if (differeance >= const Duration(seconds: 2)) {
+              const String msg = 'Pressing the back button again will exit the app.';
+              Fluttertoast.showToast(
+                msg: msg,
+              );
+              return Future.value(false);
+            } else {
+              Fluttertoast.cancel();
+              if (Platform.isAndroid) {
+                SystemNavigator.pop();
+              } else if (Platform.isIOS) {
+                exit(0);
+              }
+
+              return Future.value(true);
+            }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          // TRY THIS: Try changing the color here to a specific color (to
+          // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+          // change color while the other colors stay the same.
+          // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          // Here we take the value from the MyHomePage object that was created by
+          // the App.build method, and use it to set our appbar title.
+          // title: Text(widget.title),
+          centerTitle: true,
+          title: Text(
+                  cnt.title.value,
+                  style: TextStyle(
+                    fontSize: 20, //customize size here
+                    fontFamily: TheApp.highFont,
+                  ),
+                ),
+          elevation: 0,
+        ),
+        body: _widgetOptions.elementAt(cnt.selectedIndex.value),
+        bottomNavigationBar: _buildBottomBar(),
       ),
-      body: _widgetOptions.elementAt(cnt.selectedIndex.value),
-      bottomNavigationBar: _buildBottomBar(),
     );
   }
 

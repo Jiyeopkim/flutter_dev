@@ -52,7 +52,7 @@ class _ResultScn extends State<ResultScn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SQL Result'),
+        title: const Text('SQL Result', style: TextStyle(fontSize: 20),),
       ),
       body: 
       SafeArea(
@@ -65,11 +65,11 @@ class _ResultScn extends State<ResultScn> {
           padding: const EdgeInsets.all(10.0),
           child: 
           Obx(() => isExec == false ? 
-            const Expanded(child: Text('Hello, World1234')) :             
+            const Expanded(child: Text('No Data')) :             
             SingleChildScrollView(
               child: PaginatedDataTable(
                       source: getData(),
-                      header: Text(sqlStatment),
+                      header: Text(sqlStatment, style: const TextStyle(fontSize: 16),),
                       columns: getColumns,
                       columnSpacing: 10,
                       horizontalMargin: 10,

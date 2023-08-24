@@ -44,6 +44,8 @@ class SqlController extends GetxController {
       var temp = SqlModel(
         title: row['title'] as String?,
         id: row['id'] as int?,
+        simpleKor: row['simple_kor'] as String?,
+        simpleEng: row['simple_eng'] as String?,
         creatDt: row['creatDt'] as String?,
       );
       sqlList.add(temp);
@@ -114,6 +116,7 @@ class SqlController extends GetxController {
       var temp = ExamModel(
         title: row['title'] as String?,
         id: row['id'] as int?,
+        content: row['content'] as String?,
       );
       examList.add(temp);
     }
