@@ -74,12 +74,10 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                     child: Text(cnt.sqlItem.value.simpleEng ?? 'no data'),
                   )),
                 cnt.sqlItem.value.simpleKor == null ? const SizedBox(height: 0,) :
-                  Card(
-                    elevation: 1,
-                    child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text(cnt.sqlItem.value.simpleKor ?? 'no data'),
-                  )),  
+                  Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(cnt.sqlItem.value.simpleKor ?? 'no data'),
+                  ),  
                 const SizedBox(height: 10,),   
                 cnt.examList.isEmpty ? const SizedBox(height: 0,) : // 예제가 있으면 표시                            
                 Container(
@@ -98,7 +96,13 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                             const SizedBox(height: 10,),
                             Text('${index + 1}. ${cnt.examList[index].content ?? 'example'}'),
                             const SizedBox(height: 10,),
-                            Text(cnt.examList[index].title ?? 'no data'),
+                            SizedBox(
+                              width: double.infinity,
+                              child: Card(child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(cnt.examList[index].title ?? 'no data'),
+                              )),
+                            ),
                             const SizedBox(height: 10,),
                             Center(
                               child: OutlinedButton(onPressed: () async {

@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false, // 디버그 배너 제거
       title: 'Learn SQL',
       theme: ThemeData(useMaterial3: true,
-          colorSchemeSeed: Colors.teal, 
+          colorSchemeSeed: Colors.deepOrangeAccent, 
           // colorScheme: lightColorScheme, 
           brightness: Brightness.light,
           textTheme: const TextTheme(
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             bodyMedium: TextStyle(fontSize: 16, color: Colors.black),
         )),
       darkTheme: ThemeData(useMaterial3: true, 
-        colorSchemeSeed: Colors.teal, 
+        colorSchemeSeed: Colors.deepOrangeAccent, 
         // colorScheme: darkColorScheme,
         brightness: Brightness.dark,
         textTheme: const TextTheme(
@@ -113,24 +113,24 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
     return WillPopScope(
       onWillPop: () { 
-            final differeance = DateTime.now().difference(timeBackPressed);
-            timeBackPressed = DateTime.now();
-            if (differeance >= const Duration(seconds: 2)) {
-              const String msg = 'Pressing the back button again will exit the app.';
-              Fluttertoast.showToast(
-                msg: msg,
-              );
-              return Future.value(false);
-            } else {
-              Fluttertoast.cancel();
-              if (Platform.isAndroid) {
-                SystemNavigator.pop();
-              } else if (Platform.isIOS) {
-                exit(0);
-              }
+        final differeance = DateTime.now().difference(timeBackPressed);
+        timeBackPressed = DateTime.now();
+        if (differeance >= const Duration(seconds: 2)) {
+          const String msg = 'Pressing the back button again will exit the app.';
+          Fluttertoast.showToast(
+            msg: msg,
+          );
+          return Future.value(false);
+        } else {
+          Fluttertoast.cancel();
+          if (Platform.isAndroid) {
+            SystemNavigator.pop();
+          } else if (Platform.isIOS) {
+            exit(0);
+          }
 
-              return Future.value(true);
-            }
+          return Future.value(true);
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -144,10 +144,7 @@ class _MyHomePageState extends State<MyHomePage> {
           centerTitle: true,
           title: Text(
                   cnt.title.value,
-                  style: TextStyle(
-                    fontSize: 20, //customize size here
-                    fontFamily: TheApp.highFont,
-                  ),
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
           elevation: 0,
         ),
@@ -156,8 +153,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-  final _inactiveColor = Colors.grey;
 
   //아이콘 변경은 여기도 해야함.
   Widget _buildBottomBar() {
@@ -171,17 +166,17 @@ class _MyHomePageState extends State<MyHomePage> {
       onItemSelected: _onItemTapped,
       items: <BottomNavyBarItem>[
         BottomNavyBarItem(
-          icon: const Icon(Icons.search),
+          icon: const Icon(Icons.book),
           title: const Text('lesson'),
-          activeColor: TheApp.highColor,
-          inactiveColor: _inactiveColor,
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
           icon: const Icon(Icons.list),
           title: const Text('exercise'),
-          activeColor: TheApp.highColor,
-          inactiveColor: _inactiveColor,
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
@@ -189,15 +184,15 @@ class _MyHomePageState extends State<MyHomePage> {
           title: const Text(
             'quiz',
           ),
-          activeColor: TheApp.highColor,
-          inactiveColor: _inactiveColor,
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
           icon: const Icon(Icons.people),
-          title: const Text('profile'),
-          activeColor: TheApp.highColor,
-          inactiveColor: _inactiveColor,
+          title: const Text('myinfo'),
+          activeColor: Theme.of(context).primaryColor,
+          inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
       ],

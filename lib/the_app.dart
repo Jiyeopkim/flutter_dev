@@ -6,8 +6,6 @@ class TheApp {
 
   static String appName = 'word';
 
-  // static String baseUrl = 'https://apps.grm.kt.co.kr/cssv';
-  // static String baseUrl = 'https://app.grm.kt.co.kr/cssv';
   static String baseUrl = 'http://lucyw.azurewebsites.net';
 
   static bool isMobile = true;

@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 import 'package:learn_sql/controllers/sql_controller.dart';
 import 'package:learn_sql/screens/study_detail_scn.dart';
 
+import '../the_app.dart';
+
 class StudyScn extends StatefulWidget {
   const StudyScn({super.key});
   
@@ -69,6 +71,14 @@ class _StudyScn extends State<StudyScn> {
                                 const BorderRadius.all(Radius.circular(10.0))),
                       child: 
                         ListTile(
+                          isThreeLine: false,
+                          minLeadingWidth: 0,
+
+                          leading: Text(cnt.sqlList[index].id.toString(),
+                                  style: TextStyle(
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: 16,
+                                      color: Theme.of(context).primaryColor),),
                           title: Text(cnt.sqlList[index].title
                               .toString()),
                           subtitle: Text(cnt
