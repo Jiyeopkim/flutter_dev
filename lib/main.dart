@@ -168,14 +168,14 @@ class _MyHomePageState extends State<MyHomePage> {
         BottomNavyBarItem(
           icon: const Icon(Icons.book),
           title: const Text('lesson'),
-          activeColor: Theme.of(context).primaryColor,
+          activeColor: Theme.of(context).colorScheme.secondary,
           inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
           icon: const Icon(Icons.list),
           title: const Text('exercise'),
-          activeColor: Theme.of(context).primaryColor,
+          activeColor: Theme.of(context).colorScheme.secondary,
           inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
@@ -184,14 +184,14 @@ class _MyHomePageState extends State<MyHomePage> {
           title: const Text(
             'quiz',
           ),
-          activeColor: Theme.of(context).primaryColor,
+          activeColor: Theme.of(context).colorScheme.secondary,
           inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
           icon: const Icon(Icons.people),
           title: const Text('myinfo'),
-          activeColor: Theme.of(context).primaryColor,
+          activeColor: Theme.of(context).colorScheme.secondary,
           inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),

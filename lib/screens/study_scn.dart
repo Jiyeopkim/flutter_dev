@@ -4,8 +4,6 @@ import 'package:get/get.dart';
 import 'package:learn_sql/controllers/sql_controller.dart';
 import 'package:learn_sql/screens/study_detail_scn.dart';
 
-import '../the_app.dart';
-
 class StudyScn extends StatefulWidget {
   const StudyScn({super.key});
   

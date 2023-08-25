@@ -2,12 +2,13 @@ class ExamModel {
   String? title;
   int? id;
   String? content;
-
+  String? contentKor;
 
   ExamModel({
     this.title,
     this.id,
     this.content,
+    this.contentKor,
   });
 
   Map<String, dynamic> toMap() {
@@ -15,6 +16,7 @@ class ExamModel {
       'title': title,
       'id': id,
       'content': content,
+      'contentKor': contentKor,
     };
   }
 
@@ -27,6 +29,7 @@ class ExamModel {
       title: row['title'] as String?,
       id: row['id'] as int?,
       content: row['content'] as String?,
+      contentKor: row['contentKor'] as String?,
     );
   }
 }

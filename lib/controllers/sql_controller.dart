@@ -117,6 +117,7 @@ class SqlController extends GetxController {
         title: row['title'] as String?,
         id: row['id'] as int?,
         content: row['content'] as String?,
+        contentKor: row['content_kor'] as String?,
       );
       examList.add(temp);
     }

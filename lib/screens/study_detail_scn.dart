@@ -96,6 +96,13 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                             const SizedBox(height: 10,),
                             Text('${index + 1}. ${cnt.examList[index].content ?? 'example'}'),
                             const SizedBox(height: 10,),
+                            cnt.examList[index].contentKor == null ? const SizedBox(height: 0,) :
+                            Column(
+                              children: [
+                                Text(cnt.examList[index].contentKor ?? 'example'),
+                                const SizedBox(height: 10,),
+                              ],
+                            ),                            
                             SizedBox(
                               width: double.infinity,
                               child: Card(child: Padding(
