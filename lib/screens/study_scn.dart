@@ -76,7 +76,7 @@ class _StudyScn extends State<StudyScn> {
                                   style: TextStyle(
                                       fontStyle: FontStyle.italic,
                                       fontSize: 16,
-                                      color: Theme.of(context).primaryColor),),
+                                      color: Theme.of(context).colorScheme.primary),),
                           title: Text(cnt.sqlList[index].title
                               .toString()),
                           subtitle: Text(cnt

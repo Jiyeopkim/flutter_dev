@@ -10,6 +10,7 @@ import '../models/example_model.dart';
 import '../models/sql_model.dart';
 
 class SqlController extends GetxController {
+  final String tableName = 'lesson';
   var isDataLoading = false.obs;
   var sqlList = <SqlModel>[].obs; 
   var sqlItem = SqlModel().obs;
@@ -33,7 +34,7 @@ class SqlController extends GetxController {
     Database db = await SqlDatabase.db();
     
     var result = await db.rawQuery(
-          'SELECT * FROM sql order by id asc');
+          'SELECT * FROM $tableName order by id asc');
     
     print(result);
 
@@ -74,7 +75,7 @@ class SqlController extends GetxController {
       Database db = await SqlDatabase.db();
       
       var result = await db.rawQuery(
-            'SELECT * FROM sql where id = $index');
+            'SELECT * FROM $tableName where id = $index');
       
       print(result);
 

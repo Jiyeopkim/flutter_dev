@@ -69,7 +69,7 @@ class _ResultScn extends State<ResultScn> {
             SingleChildScrollView(
               child: PaginatedDataTable(
                       source: getData(),
-                      header: Text(sqlStatment, style: TextStyle(fontSize: 16, color: Theme.of(context).primaryColor),),
+                      header: Text(sqlStatment, style: TextStyle(fontSize: 16, color: Theme.of(context).colorScheme.primary),),
                       columns: getColumns,
                       columnSpacing: 10,
                       horizontalMargin: 10,
