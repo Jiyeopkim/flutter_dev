@@ -22,6 +22,7 @@ CREATE TABLE "{tableName}" (
 	"example"	TEXT,
 	"category"	INTEGER,
 	"tip"	TEXT,
+    "keyword"	TEXT,
 	"created_at"	TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
     ''')
@@ -164,32 +165,9 @@ def main(page: ft.Page):
         txt_number.value = str(index)
         page.update()
 
-#         prompt = f'''
-# 다음 """{sqlStatement}""" SQL 명령문의 설명을 다음과 같이 작성해줘.
-# 먼저 SQL 명령문의 문법을 설명해줘.
-# 그 다음 간단한 설명을 영어 한 문장으로 설명하고,
-# 그 다음 한국어로 설명해줘.
-# 그 다음 한문단 길이의 영어로 설명하고,
-# 그 다음 한문단 길이의 한국어로 설명해줘.
-# 마지막으로 SQL 예제를 하나 작성해줘.
-# 대답은 json 형식으로 다음과 같이 작성하고 내용이 없으면 빈칸으로 두면 됨.
-# [syntax], [simple_eng] : [simple_kor] : [expain_eng] : [explain_kor] : [example]
-#         '''
-
-#         prompt = f'''
-# this SQL statement """{sqlStatement}"""": Write a description of the SQL statement as follows.
-# First, the syntax of the SQL statement.
-# Then give a brief explanation in one sentence in English,
-# then explain it in Korean.
-# Then a one-paragraph explanation in English,
-# then a paragraph-long explanation in Korean.
-# Finally, write an SQL example.
-# Your answer should be written in exact JSON format only as follows (leaving key value blank if they don't exist).
-# {{[sql_syntax] : [simple_eng] : [simple_kor] : [expain_eng] : [explain_kor] : [example]}}
-#        '''        
-
         prompt = f'''
-this SQL statement """{sqlStatement}"""": Write a description of the SQL statement as follows. 
+This SQL (statement or keyword or clause) ``{sqlStatement}``: 
+Write a description of the SQL statement as follows. 
 {{
     "sql_syntax": "the syntax of the SQL statement",
     "simple_eng": "give a brief explanation in one sentence in English",
@@ -198,7 +176,7 @@ this SQL statement """{sqlStatement}"""": Write a description of the SQL stateme
     "explain_kor": "a one-paragraph explanation in Korean",
     "example": " write an SQL example"
 }}
-you should answer in exact JSON format only as follows (leaving key value blank if they don't exist).
+You should answer in exact JSON format only as follows (leaving key value blank if they don't exist).
         '''
 
         response = openai.ChatCompletion.create(

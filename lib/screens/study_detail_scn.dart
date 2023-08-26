@@ -77,7 +77,48 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                   Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(cnt.sqlItem.value.simpleKor ?? 'no data'),
-                  ),  
+                  ), 
+                cnt.sqlItem.value.example == null ? const SizedBox(height: 0,) :
+                  Card(child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Text(cnt.sqlItem.value.example ?? 'no data'),
+                  )),
+                const SizedBox(height: 10,),
+                cnt.sqlItem.value.explainEng == null ? const SizedBox(height: 0,) :
+                Container(
+                  padding: const EdgeInsets.all(3.0),
+                  child: InputDecorator(
+                    decoration: 
+                      const InputDecoration(
+                        labelText: 'Explanation',
+                        border: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          // topRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10), 
+                          bottomRight: Radius.circular(10))
+                        ),
+                    ),
+                    child: Text(cnt.sqlItem.value.explainEng ?? 'no data')
+                  ),
+                ),   
+                const SizedBox(height: 10,),   
+                cnt.sqlItem.value.explainKor == null ? const SizedBox(height: 0,) :          
+                Container(
+                  padding: const EdgeInsets.all(3.0),
+                  child: InputDecorator(
+                    decoration: 
+                      const InputDecoration(
+                        labelText: '설명',
+                        border: OutlineInputBorder(
+                        borderRadius: BorderRadius.only(
+                          // topRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10), 
+                          bottomRight: Radius.circular(10))
+                        ),
+                    ),
+                    child: Text(cnt.sqlItem.value.explainKor ?? 'no data')
+                  ),
+                ),
                 const SizedBox(height: 10,),   
                 cnt.examList.isEmpty ? const SizedBox(height: 0,) : // 예제가 있으면 표시                            
                 Container(
@@ -127,58 +168,23 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                   },
                   ),
                 ),
+                                
                 const SizedBox(height: 10,),
-                cnt.sqlItem.value.explainEng == null ? const SizedBox(height: 0,) :
-                Container(
-                  padding: const EdgeInsets.all(3.0),
-                  child: InputDecorator(
-                    decoration: 
-                      const InputDecoration(
-                        labelText: 'Explanation',
-                        border: OutlineInputBorder(
-                        borderRadius: BorderRadius.only(
-                          // topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10), 
-                          bottomRight: Radius.circular(10))
-                        ),
-                    ),
-                    child: Text(cnt.sqlItem.value.explainEng ?? 'no data')
-                  ),
-                ),   
-                const SizedBox(height: 10,),   
-                cnt.sqlItem.value.explainKor == null ? const SizedBox(height: 0,) :          
-                Container(
-                  padding: const EdgeInsets.all(3.0),
-                  child: InputDecorator(
-                    decoration: 
-                      const InputDecoration(
-                        labelText: '설명',
-                        border: OutlineInputBorder(
-                        borderRadius: BorderRadius.only(
-                          // topRight: Radius.circular(10),
-                          bottomLeft: Radius.circular(10), 
-                          bottomRight: Radius.circular(10))
-                        ),
-                    ),
-                    child: Text(cnt.sqlItem.value.explainKor ?? 'no data')
-                  ),
-                ),
-                const SizedBox(height: 10,),
-                Container(
-                  height: 50,
-                  color: Colors.amber[600],
-                  child: const Center(child: Text('Entry A')),
-                ),
-                Container(
-                  height: 50,
-                  color: Colors.amber[500],
-                  child: const Center(child: Text('Entry B')),
-                ),
-                Container(
-                  height: 50,
-                  color: Colors.amber[100],
-                  child: const Center(child: Text('Entry C')),
-                ),
+                // Container(
+                //   height: 50,
+                //   color: Colors.amber[600],
+                //   child: const Center(child: Text('Entry A')),
+                // ),
+                // Container(
+                //   height: 50,
+                //   color: Colors.amber[500],
+                //   child: const Center(child: Text('Entry B')),
+                // ),
+                // Container(
+                //   height: 50,
+                //   color: Colors.amber[100],
+                //   child: const Center(child: Text('Entry C')),
+                // ),
               ],
             )
         ),

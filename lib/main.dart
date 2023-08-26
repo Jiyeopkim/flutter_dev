@@ -44,8 +44,8 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         textTheme: const TextTheme(
           displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-          titleLarge: TextStyle(fontSize: 36, fontStyle: FontStyle.italic),
-          bodyMedium: TextStyle(fontSize: 14, color: Colors.white),
+          titleLarge: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+          bodyMedium: TextStyle(fontSize: 16, color: Colors.white),
         )),
 
       home: const MyHomePage(title: 'Learn SQL'),
