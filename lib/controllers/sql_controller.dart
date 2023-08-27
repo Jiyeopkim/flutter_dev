@@ -158,8 +158,9 @@ class SqlController extends GetxController {
       }
 
     }catch(e) {
-      print(e);
+      // print(e);
       db.close();
+      showToast("SQL Error", e.toString());
       return false;
     }
     db.close();

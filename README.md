@@ -15,7 +15,7 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
-페이지 구성
+## 메뉴 구성
 
 1.Lesson 
 
@@ -24,3 +24,11 @@ samples, guidance on mobile development, and a full API reference.
 3.Quiz
 
 4.Myinfo
+
+## Sample Database
+
+[Northwind sample database](https://github.com/Microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
+
+## reference
+
+[sql tutorial](https://www.sqlitetutorial.net/)

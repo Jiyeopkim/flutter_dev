@@ -14,7 +14,7 @@ SQL TOP, LIMIT, FETCH FIRST or ROWNUM Clause
 SQL MIN() and MAX() Functions
 SQL COUNT(), AVG() and SUM() Functions
 SQL LIKE Operator
-SQL Wildcards
+SQL Wildcard Characters
 SQL IN Operator
 SQL BETWEEN Operator
 SQL Aliases
