@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../controllers/sql_controller.dart';
+import 'result_scn.dart';
 
 class ExecScn extends StatefulWidget {
   const ExecScn({super.key});
@@ -71,9 +72,9 @@ class _ExecScn extends State<ExecScn> {
                             onExecPressed();
                           },
                           decoration: InputDecoration(
-                            prefixIcon: IconButton(icon: const Icon(Icons.search), 
+                            prefixIcon: IconButton(icon: const Icon(Icons.play_arrow), 
                               onPressed: () => setState(() {
-                                // onWordPressed();
+                                onExecPressed();
                               }),
                             ),
                             border: OutlineInputBorder(
@@ -83,39 +84,13 @@ class _ExecScn extends State<ExecScn> {
                               isDense: true,
                               suffixIcon: IconButton(
                                 onPressed: () => setState(() {
-                                // clearSearchInput();
+                                  clearSearchInput();
                               }),
                               icon: const Icon(Icons.clear)),
                           ),
                         ),
                     const SizedBox(height: 10,),
-                    OutlinedButton(onPressed: onPressed, child: const Text('Execute'),),
-                    // ignore: unrelated_type_equality_checks
-                    Obx(() => isExec == false ? 
-                      const Expanded(child: Text('No Data')) :             
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              
-                              PaginatedDataTable(
-                                      source: getData(),
-                                      header: const Text('SQL Result', style: TextStyle(fontSize: 16),),
-                                      columns: getColumns,
-                                      columnSpacing: 10,
-                                      horizontalMargin: 10,
-                                      rowsPerPage: 10,
-                                      showCheckboxColumn: false,
-                              ),
-                              
-                            ],
-                          ),
-                        ),
-                      ),
-                  ),
-                  // SizedBox(
-                  //   height: 100,
-                  //   child: Text(getColumn())),
+                    OutlinedButton(onPressed: onPressed, child: const Text('Run SQL'),),
                 ],
               ),
             )
@@ -139,8 +114,15 @@ class _ExecScn extends State<ExecScn> {
   }
   
   void onExecPressed() async {
-    await cnt.execSql(textEditingController.text);
-    isExec?.value = true;
+    bool isSuccess = await cnt.execSql(textEditingController.text);
+
+    if(isSuccess){
+      await Get.to(() => const ResultScn(), 
+          fullscreenDialog: true, 
+          transition: Transition.rightToLeft, 
+          duration: const Duration(milliseconds: 300),
+          arguments:textEditingController.text);                                
+    }
   }
   
   getData() {
@@ -159,8 +141,22 @@ class _ExecScn extends State<ExecScn> {
     return MyData(data);
   }
 
-  void onPressed() {
-    print('Hello, Wrold');
+  void onPressed() async {
+    bool isSuccess = await cnt.execSql(textEditingController.text);
+
+    if(isSuccess){
+      await Get.to(() => const ResultScn(), 
+          fullscreenDialog: true, 
+          transition: Transition.rightToLeft, 
+          duration: const Duration(milliseconds: 300),
+          arguments:textEditingController.text);                                
+    }
+  }
+  
+  void clearSearchInput() {
+    textEditingController.clear();
+    // word?.value = '';
+    searchFocusNode?.requestFocus();
   }
 }
 
