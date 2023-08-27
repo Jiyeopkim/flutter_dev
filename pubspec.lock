@@ -614,7 +614,7 @@ packages:
     source: hosted
     version: "0.5.15"
   sqlparser:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: sqlparser
       sha256: "60249badd8052dec4ad8d4bf5923da7533dad0009e92e224f8abd221665bfa22"

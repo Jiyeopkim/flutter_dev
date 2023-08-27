@@ -1,10 +1,13 @@
 // import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 // import 'package:learn_sql/data/database.dart';
 import 'package:learn_sql/data/sql_databse.dart';
 
 // import '../data/filename.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:sqlparser/sqlparser.dart';
 
 import '../models/example_model.dart';
 import '../models/sql_model.dart';
@@ -91,15 +94,76 @@ class SqlController extends GetxController {
     }
   }
 
+  void showToast(String title, String msg){
+    Get.dialog(
+      AlertDialog(
+        title: Text(title),
+        content: Text(msg),
+        actions: [
+          TextButton(
+            child: const Text("Close"),
+            onPressed: () => Get.back(),
+          ),
+        ],
+      ),
+    );            
+  }
+
   Future<bool> execSql(String sqlState) async {
     Database db = await SqlDatabase.db();
-    
-    result = await db.rawQuery(sqlState);
-    
-    print(result);
+    bool returnResult = false;
+    try {
+      final engine = SqlEngine();
+      final parseResult = engine.parse(sqlState);
 
+      if(parseResult.errors.isNotEmpty) {
+        showToast('SQL Syntax Error',parseResult.errors.first.message);
+        return false;
+      }
+
+      print(parseResult.rootNode.first);
+
+      switch(parseResult.rootNode.runtimeType) {
+        case SelectStatement:
+          result = await db.rawQuery(sqlState);
+          
+          if(result.isEmpty) {
+            showToast('Select Statement', 'No data');
+            returnResult = false;
+          } 
+
+          if(result.isNotEmpty) {
+            returnResult = true;
+          } 
+
+          break;
+        case UpdateStatement:
+          int count = await db.rawUpdate(sqlState);
+          showToast('Update Statement', 'updated: $count');
+          break;
+        case DeleteStatement:
+          int count = await db.rawDelete(sqlState);
+          showToast('Delete Statement', 'deleted: $count');
+          print('deleted: $count');
+          break;
+        case InsertStatement:
+          int id1 = await db.rawInsert(sqlState);
+          print('inserted1: $id1');
+          showToast('Insert Statement', 'inserted1: $id1');
+          break;
+        default:
+          await db.execute(sqlState);
+          showToast('Defalut', 'defalutly executed');
+          break;
+      }
+
+    }catch(e) {
+      print(e);
+      db.close();
+      return false;
+    }
     db.close();
-    return true;
+    return returnResult;
   }
 
   Future<bool> getExamList(int index) async {

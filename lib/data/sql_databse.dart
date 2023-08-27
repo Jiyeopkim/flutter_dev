@@ -7,9 +7,14 @@ import 'package:sqflite/sqflite.dart' as sql;
 import 'package:sqflite/sqflite.dart';
 
 class SqlDatabase {
+  static bool isLoaded = false;
+
   static Future<sql.Database> db() async {
     var databasesPath = await getDatabasesPath();
     var path = join(databasesPath, "sql.db3");
+
+    //디비가 로드되었으면 그냥 리턴한다.
+    if(isLoaded) return await openDatabase(path, readOnly: false);
 
     // 디비 파일이 있는지 확인한다.
     var exists = await databaseExists(path);
@@ -46,6 +51,7 @@ class SqlDatabase {
       }
     }
 
+    isLoaded = true;
     return await openDatabase(path, readOnly: false);
     // return await openDatabase(path, null, SQLiteDatabase.OPEN_READONLY);
   }

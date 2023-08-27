@@ -154,12 +154,15 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                             const SizedBox(height: 10,),
                             Center(
                               child: OutlinedButton(onPressed: () async {
-                                  await cnt.execSql(cnt.examList[index].title as String);
-                                  await Get.to(() => const ResultScn(), 
-                                      fullscreenDialog: true, 
-                                      transition: Transition.rightToLeft, 
-                                      duration: const Duration(milliseconds: 300),
-                                      arguments:cnt.examList[index].title);                                
+                                  bool isSuccess = await cnt.execSql(cnt.examList[index].title as String);
+
+                                  if(isSuccess){
+                                    await Get.to(() => const ResultScn(), 
+                                        fullscreenDialog: true, 
+                                        transition: Transition.rightToLeft, 
+                                        duration: const Duration(milliseconds: 300),
+                                        arguments:cnt.examList[index].title);                                
+                                  }
                               }, 
                                 child: const Text('Execute')),
                             ),
