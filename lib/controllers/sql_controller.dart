@@ -2,13 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:sqlite3/sqlite3.dart';
+import 'package:sqlparser/sqlparser.dart' as sqlparser;
 // import 'package:learn_sql/data/database.dart';
-import 'package:learn_sql/data/sql_databse.dart';
+import '../data/sql_databse.dart';
 
 // import '../data/filename.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:sqlparser/sqlparser.dart';
-
 import '../models/example_model.dart';
 import '../models/sql_model.dart';
 
@@ -18,7 +17,12 @@ class SqlController extends GetxController {
   var sqlList = <SqlModel>[].obs; 
   var sqlItem = SqlModel().obs;
   var examList = <ExamModel>[].obs;
-  List<Map<String, Object?>> result = [];
+  ResultSet? result;
+  Database? _db;
+
+  Future<void> getDB() async {
+    _db ??= await SqlDatabase.db();
+  }
 
   @override
   Future<void> onInit() async {
@@ -31,14 +35,27 @@ class SqlController extends GetxController {
   }
 
   @override
-  void onClose() {}
+  void onClose() {
+    _db?.dispose();
+  }
+
+  // Future<bool> getDb() async {
+  //   db ??= await SqlDatabase.db();
+  //   return true;
+  // }
 
   Future<bool> getList() async {
-    Database db = await SqlDatabase.db();
-    
-    var result = await db.rawQuery(
+    // Database db = await SqlDatabase.db();
+    await getDB();
+
+    var result = _db?.select(
           'SELECT * FROM $tableName order by id asc');
     
+    if(result!.isEmpty) {
+      showToast('Select Statement', 'No data');
+      return false;
+    }
+
     print(result);
 
     sqlList.clear();
@@ -54,20 +71,7 @@ class SqlController extends GetxController {
       );
       sqlList.add(temp);
     }
-    db.close();
-    // MyDb db = MyDb();
-    // var result = await db.select(db.todos).get();
-    // print(result);
-
-  // final database = MyDatabase();
-
-  // // Simple insert:
-  // await database
-  //     .into(database.categories)
-  //     .insert(CategoriesCompanion.insert(description: 'my first category'));
-  // // Simple select:
-  // final allCategories = await database.select(database.categories).get();
-  // print('Categories in database: $allCategories');
+    // db.dispose();
 
     return true;
   }
@@ -75,16 +79,20 @@ class SqlController extends GetxController {
   Future<bool> getItem(int index) async {
     try
     {
-      Database db = await SqlDatabase.db();
+      await getDB();
       
-      var result = await db.rawQuery(
+      var result = _db?.select(
             'SELECT * FROM $tableName where id = $index');
       
+      if(result!.isEmpty) {
+        showToast('Select Statement', 'No data');
+        return false;
+      }      
       print(result);
 
       sqlItem.value = SqlModel.fromMap(result)!;
 
-      db.close();
+      // db.dispose();
       return true;
     }
     catch(e)
@@ -108,12 +116,12 @@ class SqlController extends GetxController {
       ),
     );            
   }
-
+  
   Future<bool> execSql(String sqlState) async {
-    Database db = await SqlDatabase.db();
+    await getDB();
     bool returnResult = false;
     try {
-      final engine = SqlEngine();
+      final engine = sqlparser.SqlEngine();
       final parseResult = engine.parse(sqlState);
 
       if(parseResult.errors.isNotEmpty) {
@@ -124,53 +132,54 @@ class SqlController extends GetxController {
       print(parseResult.rootNode.first);
 
       switch(parseResult.rootNode.runtimeType) {
-        case SelectStatement:
-          result = await db.rawQuery(sqlState);
+        case sqlparser.SelectStatement:
+          result = _db?.select(sqlState);
           
-          if(result.isEmpty) {
+          if(result!.isEmpty) {
             showToast('Select Statement', 'No data');
             returnResult = false;
           } 
 
-          if(result.isNotEmpty) {
+          if(result!.isNotEmpty) {
             returnResult = true;
           } 
 
           break;
-        case UpdateStatement:
-          int count = await db.rawUpdate(sqlState);
+        case sqlparser.UpdateStatement:
+          _db?.execute(sqlState);
+          int count = _db!.getUpdatedRows();
           showToast('Update Statement', 'updated: $count');
           break;
-        case DeleteStatement:
-          int count = await db.rawDelete(sqlState);
+        case sqlparser.DeleteStatement:
+          _db?.execute(sqlState);
+          int count = _db!.getUpdatedRows();
           showToast('Delete Statement', 'deleted: $count');
           print('deleted: $count');
           break;
-        case InsertStatement:
-          int id1 = await db.rawInsert(sqlState);
+        case sqlparser.InsertStatement:
+          _db?.execute(sqlState);
+          int id1 = _db!.lastInsertRowId;
           print('inserted1: $id1');
           showToast('Insert Statement', 'inserted1: $id1');
           break;
         default:
-          await db.execute(sqlState);
+          _db?.execute(sqlState);
           showToast('Defalut', 'defalutly executed');
           break;
       }
 
     }catch(e) {
       // print(e);
-      db.close();
       showToast("SQL Error", e.toString());
       return false;
     }
-    db.close();
     return returnResult;
   }
 
   Future<bool> getExamList(int index) async {
     Database db = await SqlDatabase.db();
     
-    var result = await db.rawQuery(
+    var result = db.select(
           'SELECT * FROM example where sql_id = $index');
     
     print(result);
@@ -187,7 +196,7 @@ class SqlController extends GetxController {
       );
       examList.add(temp);
     }
-    db.close();
+    db.dispose();
 
     return true;
   }

@@ -37,14 +37,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.1.0
   dart_openai: ^4.0.0
-  sqflite: ^2.3.0
   get: ^5.0.0-release-candidate-4
   path: ^1.8.3
-  drift: ^2.11.0
-  sqlite3_flutter_libs: ^0.5.15
+  sqlite3_flutter_libs: ^0.5.16
   path_provider: ^2.1.0
   fluttertoast: ^8.2.2
-  sqlparser: ^0.31.0
+  sqlparser: ^0.31.1
+  sqlite3: ^2.1.0
 
 dev_dependencies:
   flutter_test:

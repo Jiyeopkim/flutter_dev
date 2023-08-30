@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sqlite3/src/result_set.dart';
 
 import '../controllers/sql_controller.dart';
 import 'result_scn.dart';
@@ -104,8 +105,8 @@ class _ExecScn extends State<ExecScn> {
     // 컬러명을 가져옴, 데이터 먼저 가져오고 컴럼명은 다음에 가져옴
     // 컬럼 개수와 데이터 필드의 개수가 일치해야함.
     List<DataColumn> columns = [];
-    var keys = cnt.result.first.keys;
-    for(var item in keys)
+    var keys = cnt.result?.columnNames;
+    for(var item in keys!)
     {
       debugPrint(item.toString());
       columns.add(DataColumn(label: Text(item.toString())));
@@ -136,9 +137,9 @@ class _ExecScn extends State<ExecScn> {
     //           "price": Random().nextInt(10000)
     //         });
 
-    List<Map<String, dynamic>> data = cnt.result;
+    ResultSet? data = cnt.result;
 
-    return MyData(data);
+    return MyData(data!);
   }
 
   void onPressed() async {
@@ -162,7 +163,7 @@ class _ExecScn extends State<ExecScn> {
 
 // The "soruce" of the table
 class MyData extends DataTableSource {
-  MyData(List<Map<String, dynamic>> data)
+  MyData(ResultSet data)
   {
     debugPrint('MyData');
     _data = data;
