@@ -46,7 +46,10 @@ class _StatScn extends State<StatScn> {
             // await quiz.getWordByLocal();
             // isMade.value = await quiz.getWordList(quiz.word.value.word ?? 'intutitive');
           },
-          child: Text('myinfo not implemented'),
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text('Version 1.0.0'),
+          ),
         ),
       ),
     );
