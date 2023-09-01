@@ -50,7 +50,7 @@ class _StudyScn extends State<StudyScn> {
           },
           child:  Obx(
         () => cnt.isDataLoading.value
-            ? const Center(child: CircularProgressIndicator())
+            ? const SizedBox(height: 0,) // const Center(child: CircularProgressIndicator())
             : ListView.builder(
                 physics: const BouncingScrollPhysics(),
                 itemCount: cnt.sqlList.length,

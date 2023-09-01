@@ -56,7 +56,7 @@ class SqlController extends GetxController {
       return false;
     }
 
-    print(result);
+    // print(result);
 
     sqlList.clear();
     //for loop result and add to chatList
@@ -88,7 +88,7 @@ class SqlController extends GetxController {
         showToast('Select Statement', 'No data');
         return false;
       }      
-      print(result);
+      // print(result);
 
       sqlItem.value = SqlModel.fromMap(result)!;
 
@@ -129,7 +129,7 @@ class SqlController extends GetxController {
         return false;
       }
 
-      print(parseResult.rootNode.first);
+      // print(parseResult.rootNode.first);
 
       switch(parseResult.rootNode.runtimeType) {
         case sqlparser.SelectStatement:
@@ -182,7 +182,7 @@ class SqlController extends GetxController {
     var result = db.select(
           'SELECT * FROM example where sql_id = $index');
     
-    print(result);
+    // print(result);
 
     examList.clear();
     //for loop result and add to chatList

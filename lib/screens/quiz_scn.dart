@@ -58,7 +58,7 @@ class _QuizScn extends State<QuizScn> {
           Padding(
                 padding: const EdgeInsets.all(10),
                 child: Obx(() => isMade.value == false
-                    ? const Text('.퀴즈문제를 만들지 못했습니다.')
+                    ? const Text('')
                     :
 
                     SizedBox(
@@ -70,7 +70,7 @@ class _QuizScn extends State<QuizScn> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children:  <Widget>[
-                                const SizedBox(height: 2),                 
+                                const SizedBox(height: 10),                 
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width,
                                   child: InputDecorator(

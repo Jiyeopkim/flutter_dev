@@ -62,13 +62,15 @@ class _ExecScn extends State<ExecScn> {
               Column(
                 children: [
                     TextField(
+                      keyboardType: TextInputType.multiline,
+                          minLines: 10,//Normal textInputField will be displayed
+                          maxLines: 10,// when user presses enter it will adapt to it
                           controller: textEditingController,
                           focusNode: searchFocusNode,
                           onChanged: (value) {
                             // word?.value = value;
                           },
-                          maxLines: 1,
-                          textInputAction: TextInputAction.go,
+                          // textInputAction: TextInputAction.go,
                           onSubmitted: (value) {
                             onExecPressed();
                           },
