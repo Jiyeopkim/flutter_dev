@@ -44,6 +44,7 @@ dependencies:
   fluttertoast: ^8.2.2
   sqlparser: ^0.31.1
   sqlite3: ^2.1.0
+  package_info_plus: ^4.1.0
 
 dev_dependencies:
   flutter_test:

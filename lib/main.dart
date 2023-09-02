@@ -12,11 +12,11 @@ import 'package:learn_sql/screens/exec_scn.dart';
 import 'controllers/the_app_controller.dart';
 import 'screens/quiz_scn.dart';
 import 'screens/result_scn.dart';
-import 'the_app.dart';
 import 'util.dart';
 import 'widget/custom_animated_bottom_bar.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -164,7 +164,14 @@ class _MyHomePageState extends State<MyHomePage> {
       itemCornerRadius: 24,
       curve: Curves.easeIn,
       onItemSelected: _onItemTapped,
-      items: <BottomNavyBarItem>[
+      items: getNavibar(),
+    );
+  }
+
+  //BottomNavigationBar 그리기, 아이콘 변경은 여기서...
+  List<BottomNavyBarItem> getNavibar() {
+    List<BottomNavyBarItem> list = 
+    <BottomNavyBarItem>[
         BottomNavyBarItem(
           icon: const Icon(Icons.book),
           title: const Text('lesson'),
@@ -195,40 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
           inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
-      ],
-    );
-  }
-
-  //BottomNavigationBar 그리기, 아이콘 변경은 여기서...
-  static List<BottomNavigationBarItem> getNavibar() {
-    List<BottomNavigationBarItem> list = const [
-      BottomNavigationBarItem(
-        icon: Icon(Icons.search, color: Colors.black87),
-        activeIcon:
-            Icon(Icons.search, color: TheApp.highColor),
-        label: 'lesson',
-        // backgroundColor: TheApp.backColor,
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.list, color: Colors.black87),
-        activeIcon: Icon(Icons.list, color: TheApp.highColor),
-        label: 'exercise',
-        // backgroundColor: TheApp.backColor,
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.quiz, color: Colors.black87),
-        activeIcon: Icon(Icons.quiz, color: TheApp.highColor),
-        label: 'quiz',
-        // backgroundColor: TheApp.backColor,
-      ),
-      BottomNavigationBarItem(
-        icon: Icon(Icons.people, color: Colors.black87),
-        activeIcon:
-            Icon(Icons.people, color: TheApp.highColor),
-        label: 'myinfo',
-        // backgroundColor: TheApp.backColor,
-      ),
-    ];
+      ];
     return list;
   }
 
@@ -241,7 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   void _onItemTapped(int index) {
-    cnt.title.value = getNavibar()[index].label!;
+    cnt.title.value = (getNavibar()[index].title as Text).data!;
     cnt.selectedIndex.value = index;
     setState(() {});
   }

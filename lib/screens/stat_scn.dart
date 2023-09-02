@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:package_info_plus/package_info_plus.dart';
+
 
 class StatScn extends StatefulWidget {
   const StatScn({super.key});
@@ -13,8 +14,12 @@ class StatScn extends StatefulWidget {
 class _StatScn extends State<StatScn> {
 
   double count = 0;
-
+  PackageInfo? packageInfo;
   void init() async {
+    packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      
+    });
   }
 
   void cleanUp() {}
@@ -46,10 +51,12 @@ class _StatScn extends State<StatScn> {
             // await quiz.getWordByLocal();
             // isMade.value = await quiz.getWordList(quiz.word.value.word ?? 'intutitive');
           },
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Text('Version 1.0.0'),
-          ),
+          child: ListView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(10),
+            children: [
+              Text('Version ${packageInfo?.version}')
+          ]),
         ),
       ),
     );
