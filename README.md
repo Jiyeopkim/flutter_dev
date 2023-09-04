@@ -27,8 +27,9 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Sample Database
 
-[Northwind sample database](https://github.com/Microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
-[Northwind sample database for SQLite](https://github.com/jpwhite3/northwind-SQLite3)
+- [Northwind sample database](https://github.com/Microsoft/sql-server-samples/tree/master/samples/databases/northwind-pubs)
+- [Northwind sample database for SQLite](https://github.com/jpwhite3/northwind-SQLite3)
+
 ## reference
 
 [sql tutorial](https://www.sqlitetutorial.net/)
