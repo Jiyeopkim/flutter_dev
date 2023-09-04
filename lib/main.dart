@@ -104,53 +104,30 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime timeBackPressed = DateTime.now();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return WillPopScope(
-      onWillPop: () { 
-        final differeance = DateTime.now().difference(timeBackPressed);
-        timeBackPressed = DateTime.now();
-        if (differeance >= const Duration(seconds: 2)) {
-          const String msg = 'Pressing the back button again will exit the app.';
-          Fluttertoast.showToast(
-            msg: msg,
-          );
-          return Future.value(false);
-        } else {
-          Fluttertoast.cancel();
-          if (Platform.isAndroid) {
-            SystemNavigator.pop();
-          } else if (Platform.isIOS) {
-            exit(0);
-          }
-
-          return Future.value(true);
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          // TRY THIS: Try changing the color here to a specific color (to
-          // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-          // change color while the other colors stay the same.
-          // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          // title: Text(widget.title),
-          centerTitle: true,
-          title: Text(
-                  cnt.title.value,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-          elevation: 0,
-        ),
-        body: _widgetOptions.elementAt(cnt.selectedIndex.value),
-        bottomNavigationBar: _buildBottomBar(),
+    return Scaffold(
+      appBar: AppBar(
+        // TRY THIS: Try changing the color here to a specific color (to
+        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
+        // change color while the other colors stay the same.
+        // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // Here we take the value from the MyHomePage object that was created by
+        // the App.build method, and use it to set our appbar title.
+        // title: Text(widget.title),
+        centerTitle: true,
+        title: Text(
+                cnt.title.value,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+        elevation: 0,
       ),
+      body: _widgetOptions.elementAt(cnt.selectedIndex.value),
+      bottomNavigationBar: _buildBottomBar(),
     );
   }
 

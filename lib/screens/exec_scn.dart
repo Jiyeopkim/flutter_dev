@@ -94,6 +94,31 @@ class _ExecScn extends State<ExecScn> {
                         ),
                     const SizedBox(height: 10,),
                     OutlinedButton(onPressed: onPressed, child: const Text('Run SQL'),),
+                    const SizedBox(height: 10,),
+                    Text('Sample Database Tables', style: Theme.of(context).textTheme.titleMedium,),
+                    Expanded(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: 
+                        Wrap(
+                          direction: Axis.horizontal,
+                          spacing: 10,
+                          children: <Widget>[
+                            getTableChip('Customers'),
+                            getTableChip('Products'),
+                            getTableChip('Employees'),
+                            getTableChip('Orders'),
+                            getTableChip('Order Details'),
+                            getTableChip('Shippers'),
+                            getTableChip('Suppliers'),
+                            getTableChip('Categories'),
+                            getTableChip('Regions'),
+                            getTableChip('Territories'),
+                            getTableChip('EmployeeTerritories'),
+                          ])
+                        ),
+                      ),
+                    
                 ],
               ),
             )
@@ -101,6 +126,24 @@ class _ExecScn extends State<ExecScn> {
         
       ),
     );
+  }
+
+  Widget getTableChip(String tableName)
+  {
+    return ActionChip(
+      label: Text(tableName),
+      onPressed: () async {
+        bool isSuccess = await cnt.execSql('select * from "$tableName"');
+
+        if(isSuccess){
+          await Get.to(() => const ResultScn(), 
+              fullscreenDialog: true, 
+              transition: Transition.rightToLeft, 
+              duration: const Duration(milliseconds: 300),
+              arguments:'select * from "$tableName"');                                
+        }
+
+      });
   }
 
   List<DataColumn> get getColumns {
