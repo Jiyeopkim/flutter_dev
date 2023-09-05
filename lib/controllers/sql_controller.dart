@@ -1,9 +1,7 @@
 // import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sqlite3/sqlite3.dart';
-import 'package:sqlparser/sqlparser.dart' as sqlparser;
 // import 'package:learn_sql/data/database.dart';
 import '../data/sql_databse.dart';
 

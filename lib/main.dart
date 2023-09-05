@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:learn_sql/screens/stat_scn.dart';
 import 'package:learn_sql/screens/study_detail_scn.dart';

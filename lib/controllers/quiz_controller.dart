@@ -74,7 +74,7 @@ LIMIT 3;
       return false;
     }
 
-    print(result);
+    // print(result);
 
     var tempList = <SqlModel>[];
 
