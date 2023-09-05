@@ -75,7 +75,7 @@ class _QuizScn extends State<QuizScn> {
                                   width: MediaQuery.of(context).size.width,
                                   child: InputDecorator(
                                     decoration: const InputDecoration(
-                                        labelText: "수도이름 맞추기",
+                                        labelText: "Quiz",
                                         border: OutlineInputBorder(
                                         borderRadius: BorderRadius.only(
                                           // topRight: Radius.circular(15),
@@ -147,7 +147,7 @@ class _QuizScn extends State<QuizScn> {
                                     isMade.value = await quiz.getList(quiz.sqlItem.value.simpleEng ?? '');                    
                                   },
                                   
-                                  child: const Text('다음문제'),
+                                  child: const Text('Next'),
                                 ),    
                                 ), 
                                 const SizedBox(height: 100),                                                    
@@ -174,15 +174,31 @@ class _QuizScn extends State<QuizScn> {
 
   void makeAnser(SqlModel value) async {
     if(value == quiz.sqlItem.value) {
-      Get.snackbar('정답', '정답입니다.', duration: const Duration(seconds: 1), snackPosition: SnackPosition.bottom, 
-        animationDuration: const Duration(milliseconds: 200), colorText: Colors.blue);
+      // Get.snackbar('정답', '정답입니다.', duration: const Duration(seconds: 1), snackPosition: SnackPosition.bottom, 
+      //   animationDuration: const Duration(milliseconds: 200), colorText: Colors.blue);
+      Get.dialog( 
+        AlertDialog(
+          title: const Text('Correct'),
+          content: Text('Correct Answer. ${quiz.sqlItem.value.title}: ${quiz.sqlItem.value.simpleEng}'),
+          actions: [
+            TextButton(
+              child: const Text("Next"),
+              onPressed: () async => 
+              {
+                Get.back(),
+                isMade.value = false,
+                await quiz.getNation(),
+                isMade.value = await quiz.getList(quiz.sqlItem.value.simpleEng ?? ''),  
+              }
+            ),
+          ],
+        ),
+      );
 
-      isMade.value = false;
-      await quiz.getNation();
-      isMade.value = await quiz.getList(quiz.sqlItem.value.simpleEng ?? '');          
+        
       
     } else {
-      Get.snackbar('오답', '오답입니다.', duration: const Duration(seconds: 1), snackPosition: SnackPosition.bottom, 
+      Get.snackbar('Incorrect', 'Incorrect Answer.', duration: const Duration(seconds: 1), snackPosition: SnackPosition.bottom, 
         animationDuration: const Duration(milliseconds: 200), colorText: Colors.red);
     }
   }

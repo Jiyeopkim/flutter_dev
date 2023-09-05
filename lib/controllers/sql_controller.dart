@@ -49,7 +49,7 @@ class SqlController extends GetxController {
     await getDB();
 
     var result = _db?.select(
-          'SELECT * FROM $tableName order by id asc');
+          "SELECT * FROM $tableName where useYN IS NULL order by id asc");
     
     if(result!.isEmpty) {
       showToast('Select Statement', 'No data');
@@ -117,22 +117,30 @@ class SqlController extends GetxController {
     );            
   }
   
+  // sqlstate 문자열에서 첫번째 단어를 대문자로 변경하고 그 결과를 리턴하는 함수 작성
+  String getFirstWord(String sqlState) {
+    String firstWord = sqlState.split(' ').first;
+    return firstWord.toUpperCase();
+  }
+
   Future<bool> execSql(String sqlState) async {
     await getDB();
     bool returnResult = false;
     try {
-      final engine = sqlparser.SqlEngine();
-      final parseResult = engine.parse(sqlState);
+      // final engine = sqlparser.SqlEngine();
+      // final parseResult = engine.parse(sqlState);
 
-      if(parseResult.errors.isNotEmpty) {
-        showToast('SQL Syntax Error',parseResult.errors.first.message);
-        return false;
-      }
+      String commandType = getFirstWord(sqlState);
+
+      // if(parseResult.errors.isNotEmpty) {
+      //   showToast('SQL Syntax Error',parseResult.errors.first.message);
+      //   return false;
+      // }
 
       // print(parseResult.rootNode.first);
 
-      switch(parseResult.rootNode.runtimeType) {
-        case sqlparser.SelectStatement:
+      switch(commandType) {
+        case 'SELECT':
           result = _db?.select(sqlState);
           
           if(result!.isEmpty) {
@@ -145,18 +153,18 @@ class SqlController extends GetxController {
           } 
 
           break;
-        case sqlparser.UpdateStatement:
+        case 'UPDATE':
           _db?.execute(sqlState);
           int count = _db!.getUpdatedRows();
           showToast('Update Statement', 'updated: $count');
           break;
-        case sqlparser.DeleteStatement:
+        case 'DELETE':
           _db?.execute(sqlState);
           int count = _db!.getUpdatedRows();
           showToast('Delete Statement', 'deleted: $count');
           print('deleted: $count');
           break;
-        case sqlparser.InsertStatement:
+        case 'INSERT':
           _db?.execute(sqlState);
           int id1 = _db!.lastInsertRowId;
           print('inserted1: $id1');

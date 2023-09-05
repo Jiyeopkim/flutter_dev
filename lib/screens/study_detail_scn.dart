@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:learn_sql/screens/result_scn.dart';
 
@@ -146,10 +147,16 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                             ),                            
                             SizedBox(
                               width: double.infinity,
-                              child: Card(child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(cnt.examList[index].title ?? 'no data'),
-                              )),
+                              child: InkWell(
+                                child: Card(
+                                  child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(cnt.examList[index].title ?? 'no data'),
+                                )),
+                                onLongPress: () {
+                                  Clipboard.setData(ClipboardData(text: cnt.examList[index].title ?? 'no data'));
+                                },
+                              ),
                             ),
                             const SizedBox(height: 10,),
                             Center(
