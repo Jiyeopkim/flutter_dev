@@ -103,7 +103,7 @@ class SqlController extends GetxController {
   void showToast(String title, String msg){
     Get.dialog(
       AlertDialog(
-        title: Text(title),
+        title: Text(title, style: const TextStyle(color: Colors.red,),),
         content: Text(msg),
         actions: [
           TextButton(
@@ -112,7 +112,7 @@ class SqlController extends GetxController {
           ),
         ],
       ),
-    );            
+    );                
   }
   
   // sqlstate 문자열에서 첫번째 단어를 대문자로 변경하고 그 결과를 리턴하는 함수 작성

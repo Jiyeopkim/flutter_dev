@@ -45,6 +45,15 @@ def insert_db(tableName: str, index: int, title: str, syntax: str, simple_eng: s
     conn.commit()
     conn.close()    
 
+# example table에 레코드를 수정한다.
+def upate_example_db(tableName: str, index: int, title: str, content: str, content_kor: str):
+    conn = sqlite3.connect('./assets/sql.db3')
+    cur = conn.cursor()
+    conn.execute(f'UPDATE {tableName} SET title = ?, content = ?, content_kor = ? WHERE id = ?',
+                (title, content, content_kor, index))
+    conn.commit()
+    conn.close() 
+
 def main(page: ft.Page):
     page.title = "Learn SQL"
     page.vertical_alignment = ft.MainAxisAlignment.START
@@ -136,6 +145,32 @@ def main(page: ft.Page):
 
     def cancel_lesson_all(e):
         txt_progress.visible = False
+
+    def make_example_all(e):
+        txt_progress.visible = True
+        txt_number.value = str(int(txt_number.value) + 1)
+        pr.visible = True
+        page.update()
+
+        index = 1
+
+        conn = sqlite3.connect('./assets/sql.db3')
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM example')
+        rows = cur.fetchall()
+
+        for row in rows:
+            # row에서 id 컬럼의 값을 가져온다.
+            id = row[0]
+            title = row[2]
+            print(title)
+            update_example(id, title)
+
+        conn.close()  
+
+        txt_progress.visible = False
+        pr.visible = False
+        page.update()
     # body
     page.add(
         ft.Column(
@@ -147,6 +182,7 @@ def main(page: ft.Page):
                         ft.OutlinedButton(text="create lesson table", on_click=create_lesson_table),
                         ft.OutlinedButton(text="delete lesson table", on_click=delete_lesson_table),
                         ft.OutlinedButton(text="insert lesson table", on_click=insert_lesson_all),  
+                        ft.OutlinedButton(text="make example table", on_click=make_example_all),
                         ft.OutlinedButton(text="cancel", on_click=cancel_lesson_all),                       
                     ]
                 ),
@@ -208,6 +244,49 @@ You should answer in exact JSON format only as follows (leaving key value blank 
 
         pr.visible = False
         page.update()
+
+    # chatbot을 통해 sql example을 수정한다.
+    def update_example(index: int, sqlStatement: str):
+        pr.visible = True
+        txt_number.value = str(index)
+        page.update()
+
+        prompt = f'''
+This SQL (statement or keyword or clause) ``{sqlStatement}``: 
+Explain a description of the SQL statement as follows. 
+{{
+    "content": "give a brief explanation in one sentence in English",
+    "content_kor": "give a brief explanation in one sentence in Korean",
+}}
+You should answer in exact JSON format only as follows (leaving key value blank if they don't exist).
+        '''
+
+        response = openai.ChatCompletion.create(
+            # model="gpt-3.5-turbo",
+            model="gpt-4",
+            messages=[
+                    {"role": "system", "content": "You are teaching SQL for beginer."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            
+        data = response['choices'][0]['message']['content']
+        txt_result.value = data
+        page.update()
+
+        # Parse JSON into an object with attributes corresponding to dict keys.
+        try:
+            x = json.loads(data, object_hook=lambda d: SimpleNamespace(**d))
+            upate_example_db('example', index, sqlStatement, x.content, x.content_kor)
+        except Exception as e:    # 모든 예외의 에러 메시지를 출력할 때는 Exception을 사용
+            print('예외 발생.', e)
+            txt_error.value = f'error: {index}, {e}'
+            pr.visible = False
+            page.update()
+            return
+
+        pr.visible = False
+        page.update()        
 
 ft.app(target=main)
 

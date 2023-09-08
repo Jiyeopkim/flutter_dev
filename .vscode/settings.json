@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "C:/work/learn_sql/windows/runner"
+    "cmake.sourceDirectory": "C:/work/learn_sql/windows/runner",
+    "java.compile.nullAnalysis.mode": "automatic"
 }
