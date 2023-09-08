@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:learn_sql/screens/stat_scn.dart';
 import 'package:learn_sql/screens/study_detail_scn.dart';
 import 'package:learn_sql/screens/study_scn.dart';
 import 'package:learn_sql/screens/exec_scn.dart';
 
+import 'ad_helper.dart';
 import 'controllers/the_app_controller.dart';
 import 'screens/quiz_scn.dart';
 import 'screens/result_scn.dart';
@@ -18,6 +22,12 @@ void main() {
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+  // 모바일 광고 sdk를 초기화한다.
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    return MobileAds.instance.initialize();
+  }
+
 
   // This widget is the root of your application.
   @override
@@ -79,12 +89,36 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   TheAppController cnt = Get.put(TheAppController());
 
+  BannerAd? _bannerAd;
+
   void init() {
     changeStatusBarColor();
     // debugPrint(login.token);
+
+    if (!Platform.isWindows && !Platform.isMacOS) {
+      //윈도우 광고, 맥광고는 지원되지 않음.
+      BannerAd(
+        adUnitId: AdHelper.bannerAdUnitId,
+        request: const AdRequest(),
+        size: AdSize.banner,
+        listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            setState(() {
+              _bannerAd = ad as BannerAd;
+            });
+          },
+          onAdFailedToLoad: (ad, err) {
+            print('Failed to load a banner ad: ${err.message}');
+            ad.dispose();
+          },
+        ),
+      ).load();
+    }
   }
 
-  void cleanUp() {}
+  void cleanUp() {
+    _bannerAd?.dispose();
+  }
 
   @override
   void initState() {
@@ -122,7 +156,21 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
         elevation: 0,
       ),
-      body: _widgetOptions.elementAt(cnt.selectedIndex.value),
+      // body: _widgetOptions.elementAt(cnt.selectedIndex.value),
+
+      body: Column(children: [
+        Expanded(child: _widgetOptions.elementAt(cnt.selectedIndex.value)),
+        if (_bannerAd != null)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              width: _bannerAd!.size.width.toDouble(),
+              height: _bannerAd!.size.height.toDouble(),
+              child: AdWidget(ad: _bannerAd!),
+            ),
+          ),
+      ]),
+
       bottomNavigationBar: _buildBottomBar(),
     );
   }

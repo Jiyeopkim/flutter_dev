@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 import '../data/sql_databse.dart';
+import '../models/example_model.dart';
 import '../models/sql_model.dart';
 
 class QuizController extends GetxController {
@@ -34,7 +35,7 @@ class QuizController extends GetxController {
     _db?.dispose();
   }
 
-  Future<bool> getNation() async {
+  Future<bool> _getItem() async {
     try
     {
       // 로컬 DB에 있는지 확인
@@ -57,7 +58,7 @@ class QuizController extends GetxController {
     }
   }
 
-  Future<bool> getList(String sql) async {
+  Future<bool> _getList(String sql) async {
     // Database db = await SqlDatabase.db();
     await getDB();
 
@@ -98,6 +99,85 @@ LIMIT 3;
       return false;
     }
     return true;
+  }
+
+  Future<bool> _getItem2() async {
+    try
+    {
+      // 로컬 DB에 있는지 확인
+      await getDB();
+
+      String tableName2 = "example";
+      var result = _db?.select(
+        'SELECT * FROM $tableName2 ORDER BY RANDOM() LIMIT 1');
+
+      if(result!.isEmpty) {
+        showToast('Select Statement', 'No data');
+        return false;
+      } 
+      sqlItem.value.title = (ExamModel.fromMap(result)!).content;
+      sqlItem.value.simpleEng = (ExamModel.fromMap(result)!).title;
+
+      return true;
+    } catch (e) {
+      print(e);
+      showToast('GetItem Error: ', e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> _getList2(String sql) async {
+    // Database db = await SqlDatabase.db();
+    await getDB();
+
+    String tableName2 = "example";
+    var result = _db?.select('''
+SELECT *
+FROM $tableName2
+WHERE title NOT LIKE '$sql'
+ORDER BY RANDOM()
+LIMIT 3;
+    ''');
+
+    if(result!.isEmpty) {
+      showToast('Select Statement', 'No data');
+      return false;
+    }
+
+    // print(result);
+
+    var tempList = <SqlModel>[];
+
+    for (var i = 0; i < result.length; i++) {
+      final row = result[i];
+      var temp = SqlModel(
+        id: row['id'] as int?,
+        // title: row['title'] as String?,
+        simpleEng: row['title'] as String?,
+      );
+      tempList.add(temp);
+    }
+
+    tempList.add(sqlItem.value);
+
+    sqlList.clear();
+    
+    sqlList.addAll(shuffleList(tempList));
+
+    if(sqlList.length != 4) {
+      return false;
+    }
+    return true;
+  }
+
+
+  Future<bool> getQuiz() async {
+    await _getItem();
+    return await _getList(sqlItem.value.simpleEng ?? ''); 
+
+    // 동작안함 추후 수정 예정.
+    // await _getItem2();
+    // return await _getList2(sqlItem.value.simpleEng ?? ''); 
   }
 
   List<T> shuffleList<T>(List<T> list) {

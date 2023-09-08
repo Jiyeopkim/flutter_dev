@@ -45,6 +45,7 @@ dependencies:
   sqlparser: ^0.31.1
   sqlite3: ^2.1.0
   package_info_plus: ^4.1.0
+  google_mobile_ads: ^3.0.0
 
 dev_dependencies:
   flutter_test:
