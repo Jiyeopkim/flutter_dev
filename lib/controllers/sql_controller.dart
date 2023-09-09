@@ -127,6 +127,10 @@ class SqlController extends GetxController {
     try {
       // final engine = sqlparser.SqlEngine();
       // final parseResult = engine.parse(sqlState);
+      
+      sqlState = sqlState.replaceAll('\n', ' ');
+      sqlState = sqlState.replaceAll('\r', ' ');
+      sqlState = sqlState.replaceAll('"', "'");
 
       String commandType = getFirstWord(sqlState);
 

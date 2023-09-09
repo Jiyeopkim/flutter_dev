@@ -62,6 +62,10 @@ class QuizController extends GetxController {
     // Database db = await SqlDatabase.db();
     await getDB();
 
+    sql = sql.replaceAll("\n", " ");
+    sql = sql.replaceAll('\r', ' ');
+    sql = sql.replaceAll('"', "'");
+
     var result = _db?.select('''
 SELECT *
 FROM $tableName
@@ -130,14 +134,15 @@ LIMIT 3;
     // Database db = await SqlDatabase.db();
     await getDB();
 
+    sql = sql.replaceAll("\n", " ");
+    sql = sql.replaceAll('\r', ' ');
+    sql = sql.replaceAll('"', "'");
+
     String tableName2 = "example";
-    var result = _db?.select('''
-SELECT *
-FROM $tableName2
-WHERE title NOT LIKE '$sql'
-ORDER BY RANDOM()
-LIMIT 3;
-    ''');
+    String sql2 = "SELECT * FROM $tableName2 WHERE title NOT LIKE ? ORDER BY RANDOM() LIMIT 3;";
+    // sql2 = sql2.replaceAll("\n", " ");
+
+    var result = _db?.select(sql2, [sql]);
 
     if(result!.isEmpty) {
       showToast('Select Statement', 'No data');
@@ -170,14 +175,17 @@ LIMIT 3;
     return true;
   }
 
-
+  int _i = 0;
   Future<bool> getQuiz() async {
-    await _getItem();
-    return await _getList(sqlItem.value.simpleEng ?? ''); 
-
-    // 동작안함 추후 수정 예정.
-    // await _getItem2();
-    // return await _getList2(sqlItem.value.simpleEng ?? ''); 
+    _i++;
+    if(_i % 3 == 0) {
+      await _getItem();
+      return await _getList(sqlItem.value.simpleEng ?? ''); 
+    }else
+    { // 두번째 방식으로 두배 더 많이 출제.
+      await _getItem2();
+      return await _getList2(sqlItem.value.simpleEng ?? '');
+    }
   }
 
   List<T> shuffleList<T>(List<T> list) {

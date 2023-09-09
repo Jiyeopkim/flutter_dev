@@ -196,31 +196,35 @@ class _QuizScn extends State<QuizScn> {
       Get.bottomSheet(
         SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: 300,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Correct',
-                style: TextStyle(fontSize: 20),
+          height: 400,
+          child: SingleChildScrollView(
+            child: Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Correct',
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  const SizedBox(height: 10),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Correct Answer. ${quiz.sqlItem.value.title}: ${quiz.sqlItem.value.simpleEng}'),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () async {
+                      
+                      isMade.value = false;
+                      isMade.value = await quiz.getQuiz();  
+                      
+                      Get.back();
+                    },
+                    child: const Text('Next'),
+                  )
+                ],
               ),
-              const SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text('Correct Answer. ${quiz.sqlItem.value.title}: ${quiz.sqlItem.value.simpleEng}'),
-              ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () async {
-                  
-                  isMade.value = false;
-                  isMade.value = await quiz.getQuiz();  
-
-                  Get.back();
-                },
-                child: const Text('Next'),
-              )
-            ],
+            ),
           ),
         ),
         shape: const RoundedRectangleBorder(
