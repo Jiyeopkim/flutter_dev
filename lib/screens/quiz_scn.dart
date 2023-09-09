@@ -87,7 +87,7 @@ class _QuizScn extends State<QuizScn> {
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                        Text("• Which of the following is a '${quiz.sqlItem.value.title}' description?"),
+                                        Text("• Which of the following is a '${quiz.sqlItem.value.title}' ${quiz.description}?"),
                                         const SizedBox(height: 20),
                                         TextButton(
                                           onPressed: () {

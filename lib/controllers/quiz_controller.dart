@@ -13,6 +13,7 @@ class QuizController extends GetxController {
   var isDataLoading = false.obs;
   var sqlList = <SqlModel>[].obs; 
   var sqlItem = SqlModel().obs;
+  var description = 'description'.obs; //문제 설명 문구. Quiz1과 Quiz2를 번갈아 출제하기 위해 사용.
   ResultSet? result;
   Database? _db;
 
@@ -62,6 +63,7 @@ class QuizController extends GetxController {
     // Database db = await SqlDatabase.db();
     await getDB();
 
+    try {
     sql = sql.replaceAll("\n", " ");
     sql = sql.replaceAll('\r', ' ');
     sql = sql.replaceAll('"', "'");
@@ -81,25 +83,29 @@ LIMIT 3;
 
     // print(result);
 
-    var tempList = <SqlModel>[];
+      var tempList = <SqlModel>[];
 
-    for (var i = 0; i < result.length; i++) {
-      final row = result[i];
-      var temp = SqlModel(
-        id: row['id'] as int?,
-        title: row['title'] as String?,
-        simpleEng: row['simple_eng'] as String?,
-      );
-      tempList.add(temp);
-    }
+      for (var i = 0; i < result.length; i++) {
+        final row = result[i];
+        var temp = SqlModel(
+          id: row['id'] as int?,
+          title: row['title'] as String?,
+          simpleEng: row['simple_eng'] as String?,
+        );
+        tempList.add(temp);
+      }
 
-    tempList.add(sqlItem.value);
+      tempList.add(sqlItem.value);
 
-    sqlList.clear();
-    
-    sqlList.addAll(shuffleList(tempList));
+      sqlList.clear();
+      
+      sqlList.addAll(shuffleList(tempList));
 
-    if(sqlList.length != 4) {
+      if(sqlList.length != 4) {
+        return false;
+      }
+    }catch(e) {
+      debugPrint("<<runfar>>$e");
       return false;
     }
     return true;
@@ -124,7 +130,7 @@ LIMIT 3;
 
       return true;
     } catch (e) {
-      print(e);
+      debugPrint("<<runfar>>$e");
       showToast('GetItem Error: ', e.toString());
       return false;
     }
@@ -137,41 +143,47 @@ LIMIT 3;
     sql = sql.replaceAll("\n", " ");
     sql = sql.replaceAll('\r', ' ');
     sql = sql.replaceAll('"', "'");
-
-    String tableName2 = "example";
-    String sql2 = "SELECT * FROM $tableName2 WHERE title NOT LIKE ? ORDER BY RANDOM() LIMIT 3;";
-    // sql2 = sql2.replaceAll("\n", " ");
-
-    var result = _db?.select(sql2, [sql]);
-
-    if(result!.isEmpty) {
-      showToast('Select Statement', 'No data');
-      return false;
-    }
-
-    // print(result);
-
-    var tempList = <SqlModel>[];
-
-    for (var i = 0; i < result.length; i++) {
-      final row = result[i];
-      var temp = SqlModel(
-        id: row['id'] as int?,
-        // title: row['title'] as String?,
-        simpleEng: row['title'] as String?,
-      );
-      tempList.add(temp);
-    }
-
-    tempList.add(sqlItem.value);
-
-    sqlList.clear();
     
-    sqlList.addAll(shuffleList(tempList));
+    debugPrint("<<runfar>>$sql");
+    
+    try {
+      String tableName2 = "example";
+      String sql2 = "SELECT * FROM $tableName2 WHERE title NOT LIKE ? ORDER BY RANDOM() LIMIT 3;";
 
-    if(sqlList.length != 4) {
-      return false;
-    }
+      var result = _db?.select(sql2, [sql]);
+
+      if(result!.isEmpty) {
+        showToast('Select Statement', 'No data');
+        return false;
+      }
+
+      // print(result);
+
+      var tempList = <SqlModel>[];
+
+      for (var i = 0; i < result.length; i++) {
+        final row = result[i];
+        var temp = SqlModel(
+          id: row['id'] as int?,
+          // title: row['title'] as String?,
+          simpleEng: row['title'] as String?,
+        );
+        tempList.add(temp);
+      }
+
+      tempList.add(sqlItem.value);
+
+      sqlList.clear();
+      
+      sqlList.addAll(shuffleList(tempList));
+
+      if(sqlList.length != 4) {
+        return false;
+      }
+      }catch(e) {
+        debugPrint("<<runfar>>$e");
+        return false;
+      }
     return true;
   }
 
@@ -180,11 +192,22 @@ LIMIT 3;
     _i++;
     if(_i % 3 == 0) {
       await _getItem();
-      return await _getList(sqlItem.value.simpleEng ?? ''); 
+      if(await _getList(sqlItem.value.simpleEng ?? '')) {
+        description.value = "description";
+        return true;
+      }else {
+        return false; 
+      }
+      
     }else
     { // 두번째 방식으로 두배 더 많이 출제.
       await _getItem2();
-      return await _getList2(sqlItem.value.simpleEng ?? '');
+      if(await _getList2(sqlItem.value.simpleEng ?? '')) {
+        description.value = "SQL statement";
+        return true;
+      }else {
+        return false; 
+      }
     }
   }
 
