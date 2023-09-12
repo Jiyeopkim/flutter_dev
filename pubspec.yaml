@@ -42,10 +42,11 @@ dependencies:
   sqlite3_flutter_libs: ^0.5.16
   path_provider: ^2.1.0
   fluttertoast: ^8.2.2
-  sqlparser: ^0.31.1
+  # sqlparser: ^0.31.1
   sqlite3: ^2.1.0
   package_info_plus: ^4.1.0
   google_mobile_ads: ^3.0.0
+  fluentui_system_icons: ^1.1.213
 
 dev_dependencies:
   flutter_test:

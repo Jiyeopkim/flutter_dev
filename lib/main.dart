@@ -14,6 +14,8 @@ import 'screens/quiz_scn.dart';
 import 'screens/result_scn.dart';
 import 'util.dart';
 import 'widget/custom_animated_bottom_bar.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -194,21 +196,21 @@ class _MyHomePageState extends State<MyHomePage> {
     List<BottomNavyBarItem> list = 
     <BottomNavyBarItem>[
         BottomNavyBarItem(
-          icon: const Icon(Icons.book),
+          icon: const Icon(FluentIcons.document_one_page_multiple_24_regular),
           title: const Text('lesson'),
           activeColor: Theme.of(context).colorScheme.secondary,
           inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
-          icon: const Icon(Icons.list),
+          icon: const Icon(FluentIcons.clipboard_text_edit_24_regular),
           title: const Text('exercise'),
           activeColor: Theme.of(context).colorScheme.secondary,
           inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
-          icon: const Icon(Icons.quiz),
+          icon: const Icon(FluentIcons.chat_24_regular),
           title: const Text(
             'quiz',
           ),
@@ -217,7 +219,7 @@ class _MyHomePageState extends State<MyHomePage> {
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
-          icon: const Icon(Icons.people),
+          icon: const Icon(FluentIcons.person_info_24_regular),
           title: const Text('myinfo'),
           activeColor: Theme.of(context).colorScheme.secondary,
           inactiveColor: Theme.of(context).disabledColor,
