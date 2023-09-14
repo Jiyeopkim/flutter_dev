@@ -5,7 +5,7 @@ import flet as ft
 import openai
 import sqlite3
 
-openai.api_key = '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'
+openai.api_key = '<API Key>'
 
 # sql table을 만든다.
 def create_tb(tableName: str):
