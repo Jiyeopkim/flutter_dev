@@ -161,8 +161,20 @@ class _MyHomePageState extends State<MyHomePage> {
       // body: _widgetOptions.elementAt(cnt.selectedIndex.value),
 
       body: Column(children: [
-        Expanded(child: _widgetOptions.elementAt(cnt.selectedIndex.value)),
-        if (_bannerAd != null)
+        // Expanded(child: _widgetOptions.elementAt(cnt.selectedIndex.value)),
+        Expanded( // 페이지 전환시 페이드 효과를 위해 AnimatedSwitcher로 감싸줌.
+          child: AnimatedSwitcher(
+            transitionBuilder: (Widget child, Animation<double> animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: child,
+              );
+            },
+            duration: const Duration(milliseconds: 500),
+            child: _widgetOptions.elementAt(cnt.selectedIndex.value)),
+        ),
+
+        if (_bannerAd != null) //광고를 bottom navigation위에 띄우기 위해
           Align(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
