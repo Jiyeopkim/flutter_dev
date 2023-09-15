@@ -76,7 +76,7 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                 cnt.sqlItem.value.simpleKor == null ? const SizedBox(height: 0,) :
                   Padding(
                   padding: const EdgeInsets.all(10.0),
-                  child: Text(cnt.sqlItem.value.simpleKor ?? 'no data'),
+                  child: Text(cnt.sqlItem.value.simpleKor ?? 'no data', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary)),
                   ), 
                 cnt.sqlItem.value.example == null ? const SizedBox(height: 0,) :
                   Card(child: Padding(
@@ -136,11 +136,11 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                           children: [
                             const SizedBox(height: 10,),
                             Text('${index + 1}. ${cnt.examList[index].content ?? 'example'}'),
-                            const SizedBox(height: 10,),
+                            const SizedBox(height: 5,),
                             cnt.examList[index].contentKor == null ? const SizedBox(height: 0,) :
                             Column(
                               children: [
-                                Text(cnt.examList[index].contentKor ?? 'example'),
+                                Text(cnt.examList[index].contentKor ?? 'example', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary),),
                                 const SizedBox(height: 10,),
                               ],
                             ),                            

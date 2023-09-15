@@ -97,7 +97,7 @@ class _QuizScn extends State<QuizScn> {
                                               debugPrint(e.toString());
                                             }
                                           },
-                                          child: Text('➀ ${getSimple(0)}', ),
+                                          child: Text('(a) ${getSimple(0)}', ),
                                         ),
                                         const SizedBox(height: 10),
                                         TextButton(
@@ -108,7 +108,7 @@ class _QuizScn extends State<QuizScn> {
                                               debugPrint(e.toString());
                                             }
                                           },
-                                          child: Text('➁ ${getSimple(1)}', ),
+                                          child: Text('(b) ${getSimple(1)}', ),
                                         ),
                                         const SizedBox(height: 10),
                                         TextButton(
@@ -119,7 +119,7 @@ class _QuizScn extends State<QuizScn> {
                                               debugPrint(e.toString());
                                             }                        
                                           },
-                                          child: Text('➂ ${getSimple(2)}', ),
+                                          child: Text('(c) ${getSimple(2)}', ),
                                         ),
                                         const SizedBox(height: 10),
                                         TextButton(
@@ -130,7 +130,7 @@ class _QuizScn extends State<QuizScn> {
                                               debugPrint(e.toString());
                                             }                         
                                           },
-                                          child: Text('➃ ${getSimple(3)}', ),
+                                          child: Text('(d) ${getSimple(3)}', ),
                                         ), 
                                       ]),
                                     ),
