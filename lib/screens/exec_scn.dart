@@ -63,7 +63,7 @@ class _ExecScn extends State<ExecScn> {
                 children: [
                     TextField(
                       keyboardType: TextInputType.multiline,
-                          minLines: 10,//Normal textInputField will be displayed
+                          minLines: 1,//Normal textInputField will be displayed
                           maxLines: 10,// when user presses enter it will adapt to it
                           controller: textEditingController,
                           focusNode: searchFocusNode,
@@ -103,6 +103,7 @@ class _ExecScn extends State<ExecScn> {
                         Wrap(
                           direction: Axis.horizontal,
                           spacing: 10,
+                          runSpacing: 10,
                           children: <Widget>[
                             getTableChip('Customers'),
                             getTableChip('Products'),

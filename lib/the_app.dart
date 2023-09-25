@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 class TheApp {
   TheApp._();
 
-  static String appName = 'word';
+  static String appName = 'Learn SQL';
 
   static String baseUrl = 'http://lucyw.azurewebsites.net';
 
   static bool isMobile = true;
+  static bool isKorean = false;
 
   static const Color backColor = Color(0xFFF9F9F9);
   static const Color backColor500 = Color(0xAA008577);

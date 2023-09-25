@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:learn_sql/screens/result_scn.dart';
+import 'package:learn_sql/the_app.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:markdown/markdown.dart' as md;
 
 import '../controllers/sql_controller.dart';
 
@@ -73,7 +76,7 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                     padding: const EdgeInsets.all(10.0),
                     child: Text(cnt.sqlItem.value.simpleEng ?? 'no data'),
                   )),
-                cnt.sqlItem.value.simpleKor == null ? const SizedBox(height: 0,) :
+                (cnt.sqlItem.value.simpleKor == null || !TheApp.isKorean)? const SizedBox(height: 0,) :
                   Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(cnt.sqlItem.value.simpleKor ?? 'no data', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary)),
@@ -98,11 +101,17 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                           bottomRight: Radius.circular(10))
                         ),
                     ),
-                    child: Text(cnt.sqlItem.value.explainEng ?? 'no data')
+                    child: 
+                      // Text(cnt.sqlItem.value.explainEng ?? 'no data')
+                      MarkdownBody(
+                        shrinkWrap: true,   
+                        selectable: true,                   
+                        extensionSet: md.ExtensionSet.gitHubFlavored,
+                        data: cnt.sqlItem.value.explainEng ?? 'no data'),
                   ),
                 ),   
                 const SizedBox(height: 10,),   
-                cnt.sqlItem.value.explainKor == null ? const SizedBox(height: 0,) :          
+                (cnt.sqlItem.value.explainKor == null || !TheApp.isKorean) ? const SizedBox(height: 0,) :          
                 Container(
                   padding: const EdgeInsets.all(3.0),
                   child: InputDecorator(
@@ -137,7 +146,7 @@ class _StudyDetailScn extends State<StudyDetailScn> {
                             const SizedBox(height: 10,),
                             Text('${index + 1}. ${cnt.examList[index].content ?? 'example'}'),
                             const SizedBox(height: 5,),
-                            cnt.examList[index].contentKor == null ? const SizedBox(height: 0,) :
+                            (cnt.examList[index].contentKor == null || !TheApp.isKorean)? const SizedBox(height: 0,) :
                             Column(
                               children: [
                                 Text(cnt.examList[index].contentKor ?? 'example', style: TextStyle(fontSize: 12, color: Theme.of(context).colorScheme.secondary),),

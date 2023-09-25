@@ -212,7 +212,7 @@ class _QuizScn extends State<QuizScn> {
                     child: Text('Correct Answer. ${quiz.sqlItem.value.title}: ${quiz.sqlItem.value.simpleEng}'),
                   ),
                   const SizedBox(height: 10),
-                  ElevatedButton(
+                  OutlinedButton(
                     onPressed: () async {
                       
                       isMade.value = false;

@@ -7,6 +7,7 @@ import 'package:learn_sql/screens/stat_scn.dart';
 import 'package:learn_sql/screens/study_detail_scn.dart';
 import 'package:learn_sql/screens/study_scn.dart';
 import 'package:learn_sql/screens/exec_scn.dart';
+import 'package:window_manager/window_manager.dart';
 
 import 'ad_helper.dart';
 import 'controllers/the_app_controller.dart';
@@ -17,10 +18,32 @@ import 'widget/custom_animated_bottom_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  
+  if(Platform.isAndroid || Platform.isIOS) {
+    // 안드로이드, ios에서는 윈도우 매니저를 사용하지 않음.
+    runApp(const MyApp());
+    return;
+  }else
+  {
+    await windowManager.ensureInitialized();
+    WindowOptions windowOptions = const WindowOptions(
+      size: Size(500, 800),
+      center: true,
+      backgroundColor: Colors.transparent,
+      skipTaskbar: false,
+      titleBarStyle: TitleBarStyle.normal,
+    );
+    windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+
+    runApp(const MyApp());
+  }
 }
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
