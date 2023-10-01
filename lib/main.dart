@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
     <BottomNavyBarItem>[
         BottomNavyBarItem(
           icon: const Icon(FluentIcons.document_one_page_multiple_24_regular),
-          title: const Text('lesson'),
+          title: const Text('lesson11'),
           activeColor: Theme.of(context).colorScheme.secondary,
           inactiveColor: Theme.of(context).disabledColor,
           textAlign: TextAlign.center,
