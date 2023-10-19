@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TheApp {
   TheApp._();
 
-  static String appName = 'Learn SQL';
+  static String appName = 'SQL Master';
 
   static String baseUrl = 'http://lucyw.azurewebsites.net';
 

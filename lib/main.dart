@@ -59,7 +59,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false, // 디버그 배너 제거
-      title: 'Learn SQL',
+      title: 'SQL Master',
       theme: ThemeData(useMaterial3: true,
           colorSchemeSeed: Colors.deepOrangeAccent, 
           // colorScheme: lightColorScheme, 
@@ -79,9 +79,9 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(fontSize: 16, color: Colors.white),
         )),
 
-      home: const MyHomePage(title: 'Learn SQL'),
+      home: const MyHomePage(title: 'SQL Master'),
       getPages: [
-        GetPage(name: '/', page: () => const MyHomePage(title: 'Learn SQL')),
+        GetPage(name: '/', page: () => const MyHomePage(title: 'SQL Master')),
         GetPage(name: '/study', page: () => const StudyScn()),
         GetPage(name: '/exec', page: () => const ExecScn()),
         GetPage(name: '/quiz', page: () => const QuizScn()),

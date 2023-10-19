@@ -55,7 +55,7 @@ def upate_example_db(tableName: str, index: int, title: str, content: str, conte
     conn.close() 
 
 def main(page: ft.Page):
-    page.title = "Learn SQL"
+    page.title = "SQL Master"
     page.vertical_alignment = ft.MainAxisAlignment.START
     page.window_left = 0
     page.window_top = 0
