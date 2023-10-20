@@ -2,7 +2,7 @@
     <application
         android:label="LearnSQL"
         android:name="${applicationName}"
-        android:icon="@mipmap/sqlmicons">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"
