@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="LearnSQL"
+        android:label="SQL Master"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
