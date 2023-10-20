@@ -16,17 +16,19 @@ import 'screens/result_scn.dart';
 import 'util.dart';
 import 'widget/custom_animated_bottom_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
-  if(Platform.isAndroid || Platform.isIOS) {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  if (Platform.isAndroid || Platform.isIOS) {
     // 안드로이드, ios에서는 윈도우 매니저를 사용하지 않음.
     runApp(const MyApp());
     return;
-  }else
-  {
+  } else {
     await windowManager.ensureInitialized();
     WindowOptions windowOptions = const WindowOptions(
       size: Size(500, 800),
@@ -44,7 +46,6 @@ void main() async {
   }
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -53,31 +54,32 @@ class MyApp extends StatelessWidget {
     return MobileAds.instance.initialize();
   }
 
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false, // 디버그 배너 제거
       title: 'SQL Master',
-      theme: ThemeData(useMaterial3: true,
-          colorSchemeSeed: Colors.deepOrangeAccent, 
-          // colorScheme: lightColorScheme, 
+      theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: Colors.deepOrangeAccent,
+          // colorScheme: lightColorScheme,
           brightness: Brightness.light,
           textTheme: const TextTheme(
             displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
             titleLarge: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
             bodyMedium: TextStyle(fontSize: 16, color: Colors.black),
-        )),
-      darkTheme: ThemeData(useMaterial3: true, 
-        colorSchemeSeed: Colors.deepOrangeAccent, 
-        // colorScheme: darkColorScheme,
-        brightness: Brightness.dark,
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
-          titleLarge: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
-          bodyMedium: TextStyle(fontSize: 16, color: Colors.white),
-        )),
+          )),
+      darkTheme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: Colors.deepOrangeAccent,
+          // colorScheme: darkColorScheme,
+          brightness: Brightness.dark,
+          textTheme: const TextTheme(
+            displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
+            titleLarge: TextStyle(fontSize: 20, fontStyle: FontStyle.italic),
+            bodyMedium: TextStyle(fontSize: 16, color: Colors.white),
+          )),
 
       home: const MyHomePage(title: 'SQL Master'),
       getPages: [
@@ -176,25 +178,26 @@ class _MyHomePageState extends State<MyHomePage> {
         // title: Text(widget.title),
         centerTitle: true,
         title: Text(
-                cnt.title.value,
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
+          cnt.title.value,
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
         elevation: 0,
       ),
       // body: _widgetOptions.elementAt(cnt.selectedIndex.value),
 
       body: Column(children: [
         // Expanded(child: _widgetOptions.elementAt(cnt.selectedIndex.value)),
-        Expanded( // 페이지 전환시 페이드 효과를 위해 AnimatedSwitcher로 감싸줌.
+        Expanded(
+          // 페이지 전환시 페이드 효과를 위해 AnimatedSwitcher로 감싸줌.
           child: AnimatedSwitcher(
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return FadeTransition(
-                opacity: animation,
-                child: child,
-              );
-            },
-            duration: const Duration(milliseconds: 500),
-            child: _widgetOptions.elementAt(cnt.selectedIndex.value)),
+              transitionBuilder: (Widget child, Animation<double> animation) {
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              },
+              duration: const Duration(milliseconds: 500),
+              child: _widgetOptions.elementAt(cnt.selectedIndex.value)),
         ),
 
         if (_bannerAd != null) //광고를 bottom navigation위에 띄우기 위해
@@ -228,39 +231,38 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //BottomNavigationBar 그리기, 아이콘 변경은 여기서...
   List<BottomNavyBarItem> getNavibar() {
-    List<BottomNavyBarItem> list = 
-    <BottomNavyBarItem>[
-        BottomNavyBarItem(
-          icon: const Icon(FluentIcons.document_one_page_multiple_24_regular),
-          title: const Text('lesson'),
-          activeColor: Theme.of(context).colorScheme.secondary,
-          inactiveColor: Theme.of(context).disabledColor,
-          textAlign: TextAlign.center,
+    List<BottomNavyBarItem> list = <BottomNavyBarItem>[
+      BottomNavyBarItem(
+        icon: const Icon(FluentIcons.document_one_page_multiple_24_regular),
+        title: const Text('lesson'),
+        activeColor: Theme.of(context).colorScheme.secondary,
+        inactiveColor: Theme.of(context).disabledColor,
+        textAlign: TextAlign.center,
+      ),
+      BottomNavyBarItem(
+        icon: const Icon(FluentIcons.clipboard_text_edit_24_regular),
+        title: const Text('exercise'),
+        activeColor: Theme.of(context).colorScheme.secondary,
+        inactiveColor: Theme.of(context).disabledColor,
+        textAlign: TextAlign.center,
+      ),
+      BottomNavyBarItem(
+        icon: const Icon(FluentIcons.chat_24_regular),
+        title: const Text(
+          'quiz',
         ),
-        BottomNavyBarItem(
-          icon: const Icon(FluentIcons.clipboard_text_edit_24_regular),
-          title: const Text('exercise'),
-          activeColor: Theme.of(context).colorScheme.secondary,
-          inactiveColor: Theme.of(context).disabledColor,
-          textAlign: TextAlign.center,
-        ),
-        BottomNavyBarItem(
-          icon: const Icon(FluentIcons.chat_24_regular),
-          title: const Text(
-            'quiz',
-          ),
-          activeColor: Theme.of(context).colorScheme.secondary,
-          inactiveColor: Theme.of(context).disabledColor,
-          textAlign: TextAlign.center,
-        ),
-        BottomNavyBarItem(
-          icon: const Icon(FluentIcons.person_info_24_regular),
-          title: const Text('myinfo'),
-          activeColor: Theme.of(context).colorScheme.secondary,
-          inactiveColor: Theme.of(context).disabledColor,
-          textAlign: TextAlign.center,
-        ),
-      ];
+        activeColor: Theme.of(context).colorScheme.secondary,
+        inactiveColor: Theme.of(context).disabledColor,
+        textAlign: TextAlign.center,
+      ),
+      BottomNavyBarItem(
+        icon: const Icon(FluentIcons.person_info_24_regular),
+        title: const Text('myinfo'),
+        activeColor: Theme.of(context).colorScheme.secondary,
+        inactiveColor: Theme.of(context).disabledColor,
+        textAlign: TextAlign.center,
+      ),
+    ];
     return list;
   }
 
