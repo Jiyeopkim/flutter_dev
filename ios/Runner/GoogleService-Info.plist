@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.runfar.learnSql</string>
+	<string>com.jykim.learn_sql</string>
 	<key>PROJECT_ID</key>
 	<string>sqlmaster-dee70</string>
 	<key>STORAGE_BUCKET</key>

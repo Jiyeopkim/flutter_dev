@@ -67,7 +67,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '966915652648',
     projectId: 'sqlmaster-dee70',
     storageBucket: 'sqlmaster-dee70.appspot.com',
-    iosBundleId: 'com.runfar.learnSql',
+    iosBundleId: 'com.jykim.learnSql',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(

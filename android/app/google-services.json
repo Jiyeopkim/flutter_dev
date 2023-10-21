@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:966915652648:android:a3b18ab3ab1e5474ef091d",
         "android_client_info": {
-          "package_name": "com.runfar.SQL_Master"
+          "package_name": "com.jykim.SQL_Master"
         }
       },
       "oauth_client": [],
@@ -28,7 +28,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:966915652648:android:10734a79bf7f5e1fef091d",
         "android_client_info": {
-          "package_name": "com.runfar.learn_sql"
+          "package_name": "com.jykim.learn_sql"
         }
       },
       "oauth_client": [],
