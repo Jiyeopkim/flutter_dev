@@ -33,5 +33,11 @@ samples, guidance on mobile development, and a full API reference.
 ## reference
 
 [sql tutorial](https://www.sqlitetutorial.net/)
+=============update Note=============
+1.0.0
+    -출시
 
-dddd
+1.0.1 (2023.10.21)
+    - 아이콘 변경
+    - 파이베이스 연동
+    - 구글 애드몹 연동
